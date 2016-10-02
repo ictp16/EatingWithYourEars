@@ -10,11 +10,17 @@ using System.Windows.Forms;
 
 namespace EatingWithYourEars
 {
-    public partial class Form1 : Form
+    public partial class Client : Form
     {
-        public Form1()
+        public Client()
         {
             InitializeComponent();
         }
+
+
+
+
+
+
     }
 }

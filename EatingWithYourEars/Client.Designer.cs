@@ -1,6 +1,6 @@
 ﻿namespace EatingWithYourEars
 {
-    partial class Form1
+    partial class Client
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // Form1
+            // Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(670, 372);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(639, 488);
+            this.Name = "Client";
+            this.Text = "Eating With Your Ears";
             this.ResumeLayout(false);
 
         }
