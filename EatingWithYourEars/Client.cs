@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NAudio.Wave;
 
 namespace EatingWithYourEars
 {
@@ -17,10 +18,16 @@ namespace EatingWithYourEars
             InitializeComponent();
         }
 
-
-
-
-
-
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openWave = new OpenFileDialog();
+            openWave.Filter = "Wave File (*.wav)|*.wav;";
+            if (openWave.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+            WaveGraph.SamplesPerPixel = 4800;
+            WaveGraph.WaveStream = new WaveFileReader(openWave.FileName);
+        }
     }
 }
