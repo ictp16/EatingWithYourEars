@@ -41,7 +41,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(759, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1491, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -56,7 +56,7 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -66,7 +66,7 @@
             this.WaveGraph.Location = new System.Drawing.Point(0, 24);
             this.WaveGraph.Name = "WaveGraph";
             this.WaveGraph.SamplesPerPixel = 128;
-            this.WaveGraph.Size = new System.Drawing.Size(759, 464);
+            this.WaveGraph.Size = new System.Drawing.Size(1491, 464);
             this.WaveGraph.StartPosition = ((long)(0));
             this.WaveGraph.TabIndex = 1;
             this.WaveGraph.WaveStream = null;
@@ -75,7 +75,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(759, 488);
+            this.ClientSize = new System.Drawing.Size(1491, 488);
             this.Controls.Add(this.WaveGraph);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
