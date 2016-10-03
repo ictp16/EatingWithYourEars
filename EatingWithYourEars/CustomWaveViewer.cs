@@ -22,6 +22,10 @@ namespace EatingWithYourEars
         /// Custom Variables.
         /// </summary>
         private int counter = 0;
+        private bool detectingChew = false;
+        private int numOfChews = 0;
+        private short globalHighest = 0;
+
 
 
 
@@ -139,6 +143,11 @@ namespace EatingWithYourEars
                         if (sample < low) low = sample;
                         if (sample > high) high = sample;
                     }
+                    
+                    if (detectChew(high))
+                    {
+                        e.Graphics.DrawLine(Pens.Blue, x - 2, 50, x - 2, 80);
+                    }
                     float lowPercent = ((((float)low) - short.MinValue) / ushort.MaxValue);
                     float highPercent = ((((float)high) - short.MinValue) / ushort.MaxValue);
                     e.Graphics.DrawLine(Pens.Black, x, this.Height * lowPercent, x, this.Height * highPercent);
@@ -146,7 +155,38 @@ namespace EatingWithYourEars
                 }
             }
 
+            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString(), f, b, new Point(0, 30));
+
             base.OnPaint(e);
+        }
+
+        public bool detectChew(short highestSampleValue)
+        {
+            if (highestSampleValue > globalHighest)
+            {
+                    detectingChew = true;
+                    globalHighest = highestSampleValue;
+                    counter = 0;
+            }
+            else if (highestSampleValue < globalHighest)
+            {
+                if (detectingChew)
+                {
+                    counter++;
+                    if (counter == 2)
+                    {
+                        counter = 0;
+                        numOfChews++;
+                        detectingChew = false;
+                        return true;
+                    }
+                }
+                else
+                {
+                    globalHighest = highestSampleValue;
+                }
+            }
+            return false;
         }
 
 
