@@ -28,6 +28,12 @@ namespace EatingWithYourEars
             }
             WaveGraph.SamplesPerPixel = 4800;
             WaveGraph.WaveStream = new WaveFileReader(openWave.FileName);
+            openWave.Dispose();
+        }
+
+        private void Client_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            WaveGraph.Dispose();
         }
     }
 }

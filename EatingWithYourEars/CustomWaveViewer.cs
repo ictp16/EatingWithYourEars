@@ -182,7 +182,7 @@ namespace EatingWithYourEars
                 if (detectingChew)
                 {
                     counter++;
-                    if (counter == 2)
+                    if (counter == 3)
                     {
                         counter = 0;
                         numOfChews++;
