@@ -26,8 +26,8 @@ namespace EatingWithYourEars
             {
                 return;
             }
-            WaveGraph.SamplesPerPixel = 4800;
             WaveGraph.WaveStream = new WaveFileReader(openWave.FileName);
+            WaveGraph.fitToScreen();
             openWave.Dispose();
         }
 
