@@ -53,6 +53,9 @@ namespace EatingWithYourEars
         // flag for view samplesize:
         public bool isZoomed = false;
 
+        // for scrolling:
+        private int drawPosition = 0;
+
         /// <summary>
         /// Graphing:
         /// </summary>
@@ -154,13 +157,46 @@ namespace EatingWithYourEars
             }
         }
 
-        protected override void OnScroll(ScrollEventArgs se)
+        protected override void OnMouseWheel(MouseEventArgs e)
         {
+            
+            //MessageBox.Show("Test");
             if (isZoomed)
             {
-                
+                if (e.Delta > 0)
+                {
+                    scroll(0, e.Delta);
+                }
+                else if (e.Delta < 0)
+                {
+                    scroll(1, e.Delta);
+                }
             }
-            base.OnScroll(se);
+            base.OnMouseWheel(e);
+        }
+
+        private void scroll(int direction, int amount)
+        {
+            switch (direction)
+            {
+                default:
+                case 0: // scrolling to the right
+                    if (drawPosition + amount > waveStream.Length - 1)
+                    {
+                        break;
+                    }
+                    drawPosition += amount;
+                    break;
+                case 1: // scrolling to the left
+                    if (drawPosition + amount < 0)
+                    {
+                        drawPosition = 0;
+                        break;
+                    }
+                    drawPosition += amount;
+                    break;
+            }
+            Invalidate();
         }
 
         /// <summary> 
@@ -198,20 +234,6 @@ namespace EatingWithYourEars
             //e.Graphics.DrawString("Samples Per Pixel (Visual): " + samplesPerPixel.ToString(), f, b, new Point(0, 10));
             e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "\tAmount of Bites: " + numOfBites.ToString(), f, b, new Point(0, this.Height - 20));
             
-            e.Graphics.DrawLine(Pens.Black, new Point(100, 30), new Point(100, this.Height - 100));
-            e.Graphics.DrawLine(Pens.Black, new Point(100, this.Height - 100), new Point(this.Width - 50, this.Height - 100));
-
-            //draw Amplitude values:
-            int length = this.Height - 100 - 30;
-            //zero:
-            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.5f)), new PointF(100, 30 + (length * 0.5f)) );
-            e.Graphics.DrawString("0", f,b,new Point(20, ((this.Height - 100) / 2) + 4) );
-
-            // +- a quater
-            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.375f ) ), new PointF(100, 30 + (length * 0.375f)) );
-            e.Graphics.DrawString( (highestVal / 4).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.375f) + 4));
-
-            
             //drawable wave stream:
             int sampleCount = 0;
             if (waveStream != null)
@@ -219,7 +241,7 @@ namespace EatingWithYourEars
                 waveStream.Position = 0;
                 int bytesRead;
                 byte[] waveData = new byte[samplesPerPixel * bytesPerSample];
-                waveStream.Position = startPosition + (0 * bytesPerSample * samplesPerPixel);
+                waveStream.Position = startPosition + (drawPosition * bytesPerSample * samplesPerPixel);
                 
                 for (float x = 101; x < this.Width - 50; x += 1)
                 {
@@ -444,7 +466,7 @@ namespace EatingWithYourEars
 
                 if (detectingChew3)
                 {
-                    if (globalHighest3 - highestSampleValue > 6000)
+                    if (globalHighest3 - highestSampleValue > 550 && highestSampleValue < globalHighest3 / 2)
                     {
                         numOfBites++;
                         detectingChew3 = false;
