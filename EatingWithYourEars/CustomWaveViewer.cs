@@ -39,7 +39,6 @@ namespace EatingWithYourEars
         private short globalHighest2 = 0;
 
         //for DetectBite(short highestChewValue)
-        private int counter3 = 0;
         private bool detectingChew3 = false;
         private int numOfBites = 0;
         private short globalHighest3 = 0;
@@ -51,6 +50,9 @@ namespace EatingWithYourEars
         //constant samplesPerPixel value (usid in readData):
         int constSamplesPerPixel = 1764; //1764
 
+        // flag for view samplesize:
+        public bool isZoomed = false;
+
         /// <summary>
         /// Graphing:
         /// </summary>
@@ -58,16 +60,15 @@ namespace EatingWithYourEars
         //determining the scale of the y axis:
         private int highestVal = 0;
         private int lowestVal = 0;
-        //private bool yPositive = false;
 
         
-
+        // THESE ARE THE LEGACY VARIABLES:
         /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.Container components = null;
         private WaveStream waveStream;
-        private int samplesPerPixel = 100;
+        private int samplesPerPixel = 128;
         private long startPosition;
         private int bytesPerSample;
         /// <summary>
@@ -132,7 +133,7 @@ namespace EatingWithYourEars
             }
         }
 
-        public void fitToScreen()
+        public void fitToGraph()
         {
             if (waveStream == null)
             {
@@ -146,8 +147,11 @@ namespace EatingWithYourEars
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            fitToScreen();
-            this.Invalidate();
+            if (!isZoomed)
+            {
+                fitToGraph();
+                this.Invalidate();
+            }
         }
 
         /// <summary> 
@@ -170,10 +174,11 @@ namespace EatingWithYourEars
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {
-            //samplesPerPixel = 1764;
+            
             //reset num of chews in case of repaint:
             numOfChews = 0;
             numOfChews2 = 0;
+            numOfBites = 0;
 
             //read the the audio data:
             readThroughData();
@@ -182,7 +187,7 @@ namespace EatingWithYourEars
             Font f = new Font(FontFamily.GenericSansSerif, 12);
             Brush b = new SolidBrush(Color.Red);
             //e.Graphics.DrawString("Samples Per Pixel (Visual): " + samplesPerPixel.ToString(), f, b, new Point(0, 10));
-            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + " \tAmount of Bites: " + numOfBites.ToString(), f, b, new Point(0, this.Height - 20));
+            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "\tAmount of Bites: " + numOfBites.ToString(), f, b, new Point(0, this.Height - 20));
             
             e.Graphics.DrawLine(Pens.Black, new Point(100, 30), new Point(100, this.Height - 100));
             e.Graphics.DrawLine(Pens.Black, new Point(100, this.Height - 100), new Point(this.Width - 50, this.Height - 100));
@@ -197,33 +202,9 @@ namespace EatingWithYourEars
             e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.375f ) ), new PointF(100, 30 + (length * 0.375f)) );
             e.Graphics.DrawString( (highestVal / 4).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.375f) + 4));
 
-            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.625f)), new PointF(100, 30 + (length * 0.625f)));
-            e.Graphics.DrawString((lowestVal / 4).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.625f) + 4));
-
-            // +- a half
-            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.25f)), new PointF(100, 30 + (length * 0.25f)));
-            e.Graphics.DrawString((highestVal / 2).ToString(), f, b, new PointF(20, ((this.Height - 100) / 4) + 4));
-
-            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.75f)), new PointF(100, 30 + (length * 0.75f)));
-            e.Graphics.DrawString((lowestVal / 2).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.75f) + 4));
-
-            // +- three quarters
-            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.125f)), new PointF(100, 30 + (length * 0.125f)));
-            e.Graphics.DrawString(((int)highestVal * 0.75f).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.125f) + 4));
-
-            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.875f)), new PointF(100, 30 + (length * 0.875f)));
-            e.Graphics.DrawString(((int)lowestVal * 0.75f).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.875f) + 4));
-
-            // +- full
-            e.Graphics.DrawLine(Pens.Black, new Point(90, 30), new Point(100, 30));
-            e.Graphics.DrawString((highestVal).ToString(), f, b, new PointF(20, (30 - 10)));
-
-            e.Graphics.DrawLine(Pens.Black, new Point(90, (this.Height - 100)), new Point(100, (this.Height - 100)));
-            e.Graphics.DrawString((lowestVal).ToString(), f, b, new PointF(20, (this.Height - 100) - 10));
-
             
             //drawable wave stream:
-            int tick = 0;
+            int sampleCount = 0;
             if (waveStream != null)
             {
                 waveStream.Position = 0;
@@ -247,15 +228,79 @@ namespace EatingWithYourEars
                     float lowPercent = ((((float)low) - short.MinValue) / ushort.MaxValue);
                     float highPercent = ((((float)high) - short.MinValue) / ushort.MaxValue);
                     e.Graphics.DrawLine(Pens.Black, x, ((this.Height - 130) * lowPercent) + 30, x, ((this.Height - 130) * highPercent) + 30 );
-                    tick++;
+                    sampleCount++;
+                    if (lowestVal > low)
+                    {
+                        lowestVal = low;
+                    }
+                    if (highestVal < high)
+                    {
+                        highestVal = high;
+                    }
                 }
 
             }
 
+            // drawing the graph lines:
+            //Veritcal:
+            e.Graphics.DrawLine(Pens.Black, new Point(100, 30), new Point(100, this.Height - 100));
+            //horizontal:
+            e.Graphics.DrawLine(Pens.Black, new Point(100, this.Height - 100), new Point(this.Width - 50, this.Height - 100));
+
+
+
+            //draw Amplitude values:
+            int length = this.Height - 100 - 30;
+
+            // work out if the lowest or the highest value is the largest amplitude value for the file:
+            int largestAmpValue = 0;
+            if ( (lowestVal * -1) < highestVal)
+            {
+                largestAmpValue = highestVal;
+            }
+            else
+            {
+                largestAmpValue = lowestVal * -1;
+            }
+
+            //zero:
+            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.5f)), new PointF(100, 30 + (length * 0.5f)));
+            e.Graphics.DrawString("0", f, b, new Point(20, ((this.Height - 100) / 2) + 4));
+
+            // +- a quater
+            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.375f)), new PointF(100, 30 + (length * 0.375f)));
+            e.Graphics.DrawString((largestAmpValue / 4).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.375f) + 4));
+
+            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.625f)), new PointF(100, 30 + (length * 0.625f)));
+            e.Graphics.DrawString((largestAmpValue / 4).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.625f) + 4));
+
+            // +- a half
+            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.25f)), new PointF(100, 30 + (length * 0.25f)));
+            e.Graphics.DrawString((largestAmpValue / 2).ToString(), f, b, new PointF(20, ((this.Height - 100) / 4) + 4));
+
+            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.75f)), new PointF(100, 30 + (length * 0.75f)));
+            e.Graphics.DrawString((largestAmpValue / 2).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.75f) + 4));
+
+            // +- three quarters
+            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.125f)), new PointF(100, 30 + (length * 0.125f)));
+            e.Graphics.DrawString((largestAmpValue * 0.75f).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.125f) + 4));
+
+            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.875f)), new PointF(100, 30 + (length * 0.875f)));
+            e.Graphics.DrawString((largestAmpValue * 0.75f).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.875f) + 4));
+
+            // +- full
+            e.Graphics.DrawLine(Pens.Black, new Point(90, 30), new Point(100, 30));
+            e.Graphics.DrawString((largestAmpValue).ToString(), f, b, new PointF(20, (30 - 10)));
+
+            e.Graphics.DrawLine(Pens.Black, new Point(90, (this.Height - 100)), new Point(100, (this.Height - 100)));
+            e.Graphics.DrawString((largestAmpValue).ToString(), f, b, new PointF(20, (this.Height - 100) - 10));
+
+
+
             // Drawing time values:
 
             double sampleToSeconds = 44100.00 / samplesPerPixel;
-            double fullTime = tick / sampleToSeconds;
+            double fullTime = sampleCount / sampleToSeconds;
 
             length = this.Width - 50 - 100;
 
@@ -301,7 +346,7 @@ namespace EatingWithYourEars
             base.OnPaint(e);
         }
 
-        private bool detectChew(short highestSampleValue, int xValue)
+        private void detectChew(short highestSampleValue, int xValue)
         {
             if (highestSampleValue > globalHighest)
             {
@@ -321,7 +366,7 @@ namespace EatingWithYourEars
                         numOfChews++;
                         detectingChew = false;
                         drawableCoords.Add(xTemp);
-                        return true;
+                        return;
                     }
                 }
                 else
@@ -329,10 +374,10 @@ namespace EatingWithYourEars
                     globalHighest = highestSampleValue;
                 }
             }
-            return false;
+            return;
         }
 
-        private bool detectChew2(short highestSampleValue, int xValue)
+        private void detectChew2(short highestSampleValue, int xValue)
         {
             if (highestSampleValue > globalHighest2)
             {
@@ -350,7 +395,7 @@ namespace EatingWithYourEars
                         numOfChews2++;
                         detectingChew2 = false;
                         drawableCoords2.Add(xTemp2);
-                        return true;
+                        return;
                     }
                     else
                     {
@@ -362,7 +407,7 @@ namespace EatingWithYourEars
                     globalHighest2 = highestSampleValue;
                 }
             }
-            return false;
+            return;
         }
 
 
@@ -423,7 +468,6 @@ namespace EatingWithYourEars
 
         private void readThroughData()
         {
-            int tick = 0;
             if (waveStream != null)
             {
 
@@ -446,15 +490,6 @@ namespace EatingWithYourEars
                         if (sample > high) high = sample;
                     }
 
-                    if (lowestVal > low)
-                    {
-                        lowestVal = low;
-                    }
-                    if (highestVal < high)
-                    {
-                        highestVal = high;
-                    }
-
                     detectChew(high, x);
                     detectChew2(high, x);
                     DetectBite(high, x);
@@ -464,10 +499,7 @@ namespace EatingWithYourEars
                     {
                         break;
                     }
-                    tick++;
-
                 }
-                Console.WriteLine("TICK: " + tick);
             }
         }
 

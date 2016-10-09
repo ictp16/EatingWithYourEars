@@ -27,7 +27,7 @@ namespace EatingWithYourEars
                 return;
             }
             WaveGraph.WaveStream = new WaveFileReader(openWave.FileName);
-            WaveGraph.fitToScreen();
+            WaveGraph.fitToGraph();
             openWave.Dispose();
         }
 
@@ -41,12 +41,15 @@ namespace EatingWithYourEars
             if (fullFileToolStripMenuItem.Checked)
             {
                 fullFileToolStripMenuItem.Checked = false;
+                WaveGraph.isZoomed = true;
                 WaveGraph.SamplesPerPixel = 1764;
+                WaveGraph.Invalidate();
             }
             else
             {
                 fullFileToolStripMenuItem.Checked = true;
-                WaveGraph.fitToScreen();
+                WaveGraph.isZoomed = false;
+                WaveGraph.fitToGraph();
                 WaveGraph.Invalidate();
             }
         }
