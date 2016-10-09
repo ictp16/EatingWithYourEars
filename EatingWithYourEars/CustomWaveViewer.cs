@@ -188,21 +188,7 @@ namespace EatingWithYourEars
             Brush b = new SolidBrush(Color.Red);
             //e.Graphics.DrawString("Samples Per Pixel (Visual): " + samplesPerPixel.ToString(), f, b, new Point(0, 10));
             e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "\tAmount of Bites: " + numOfBites.ToString(), f, b, new Point(0, this.Height - 20));
-            
-            e.Graphics.DrawLine(Pens.Black, new Point(100, 30), new Point(100, this.Height - 100));
-            e.Graphics.DrawLine(Pens.Black, new Point(100, this.Height - 100), new Point(this.Width - 50, this.Height - 100));
-
-            //draw Amplitude values:
-            int length = this.Height - 100 - 30;
-            //zero:
-            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.5f)), new PointF(100, 30 + (length * 0.5f)) );
-            e.Graphics.DrawString("0", f,b,new Point(20, ((this.Height - 100) / 2) + 4) );
-
-            // +- a quater
-            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.375f ) ), new PointF(100, 30 + (length * 0.375f)) );
-            e.Graphics.DrawString( (highestVal / 4).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.375f) + 4));
-
-            
+         
             //drawable wave stream:
             int sampleCount = 0;
             if (waveStream != null)
@@ -435,7 +421,7 @@ namespace EatingWithYourEars
 
                 if (detectingChew3)
                 {
-                    if (globalHighest3 - highestSampleValue > 6000)
+                    if (globalHighest3 - highestSampleValue > 5500)
                     {
                         numOfBites++;
                         detectingChew3 = false;
