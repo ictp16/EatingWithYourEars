@@ -38,6 +38,12 @@ namespace EatingWithYourEars
         private int numOfChews2 = 0;
         private short globalHighest2 = 0;
 
+        //for DetectBite(short highestChewValue)
+        private int counter3 = 0;
+        private bool detectingChew3 = false;
+        private int numOfChews3 = 0;
+        private short globalHighest3 = 0;
+
         //Drawing:
         private List<int> drawableCoords2 = new List<int>();
         private int xTemp2 = 0;
@@ -360,6 +366,63 @@ namespace EatingWithYourEars
         }
 
 
+
+
+
+
+        private bool DetectBite(short highestSampleValue, int xValue)
+        {
+
+
+
+
+            if (highestSampleValue > globalHighest3)
+            {
+                globalHighest3 = highestSampleValue;
+                detectingChew3 = true;
+                //counter3 = 1;
+               
+            }
+
+
+            else if (highestSampleValue < globalHighest3)
+            {
+
+                if (detectingChew3)
+                {
+                    if (globalHighest3 - highestSampleValue > 550)
+                    {
+                        numOfChews3++;
+                        detectingChew3 = false;
+                        return true;
+                    }
+                    //else
+                    //{
+                    //    counter3++;
+                    //}
+                }
+                else
+                {
+                    globalHighest3 = highestSampleValue;
+                }
+            }
+
+
+
+            return false;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         private void readThroughData()
         {
             int tick = 0;
@@ -396,6 +459,8 @@ namespace EatingWithYourEars
 
                     detectChew(high, x);
                     detectChew2(high, x);
+                    DetectBite(high, x);
+
 
                     if (waveStream.Position >= waveStream.Length - 1)
                     {
@@ -409,6 +474,7 @@ namespace EatingWithYourEars
         }
 
 
+
         #region Component Designer generated code
         /// <summary> 
         /// Required method for Designer support - do not modify 
@@ -416,7 +482,14 @@ namespace EatingWithYourEars
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // CustomWaveViewer
+            // 
+            this.Name = "CustomWaveViewer";
+            this.Size = new System.Drawing.Size(483, 374);
+            this.ResumeLayout(false);
+
         }
         #endregion
     }
