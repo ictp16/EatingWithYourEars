@@ -154,6 +154,15 @@ namespace EatingWithYourEars
             }
         }
 
+        protected override void OnScroll(ScrollEventArgs se)
+        {
+            if (isZoomed)
+            {
+                
+            }
+            base.OnScroll(se);
+        }
+
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
