@@ -32,13 +32,16 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.WaveGraph = new EatingWithYourEars.CustomWaveViewer();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fullFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1491, 24);
@@ -71,6 +74,23 @@
             this.WaveGraph.TabIndex = 1;
             this.WaveGraph.WaveStream = null;
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fullFileToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // fullFileToolStripMenuItem
+            // 
+            this.fullFileToolStripMenuItem.Checked = true;
+            this.fullFileToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.fullFileToolStripMenuItem.Name = "fullFileToolStripMenuItem";
+            this.fullFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fullFileToolStripMenuItem.Text = "Full Graph";
+            this.fullFileToolStripMenuItem.Click += new System.EventHandler(this.fullFileToolStripMenuItem_Click);
+            // 
             // Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -95,6 +115,8 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private CustomWaveViewer WaveGraph;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fullFileToolStripMenuItem;
     }
 }
 

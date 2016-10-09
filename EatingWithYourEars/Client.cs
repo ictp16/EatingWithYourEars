@@ -35,5 +35,20 @@ namespace EatingWithYourEars
         {
             WaveGraph.Dispose();
         }
+
+        private void fullFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (fullFileToolStripMenuItem.Checked)
+            {
+                fullFileToolStripMenuItem.Checked = false;
+                WaveGraph.SamplesPerPixel = 1764;
+            }
+            else
+            {
+                fullFileToolStripMenuItem.Checked = true;
+                WaveGraph.fitToScreen();
+                WaveGraph.Invalidate();
+            }
+        }
     }
 }
