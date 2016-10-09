@@ -372,7 +372,7 @@ namespace EatingWithYourEars
 
         private bool DetectBite(short highestSampleValue, int xValue)
         {
-
+            
 
 
 
