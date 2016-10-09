@@ -195,7 +195,21 @@ namespace EatingWithYourEars
             //display results:
             Font f = new Font(FontFamily.GenericSansSerif, 12);
             Brush b = new SolidBrush(Color.Red);
-            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "\t\tAmount of Bites: " + numOfBites.ToString(), f, b, new Point(0, this.Height - 20));
+            //e.Graphics.DrawString("Samples Per Pixel (Visual): " + samplesPerPixel.ToString(), f, b, new Point(0, 10));
+            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "\tAmount of Bites: " + numOfBites.ToString(), f, b, new Point(0, this.Height - 20));
+            
+            e.Graphics.DrawLine(Pens.Black, new Point(100, 30), new Point(100, this.Height - 100));
+            e.Graphics.DrawLine(Pens.Black, new Point(100, this.Height - 100), new Point(this.Width - 50, this.Height - 100));
+
+            //draw Amplitude values:
+            int length = this.Height - 100 - 30;
+            //zero:
+            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.5f)), new PointF(100, 30 + (length * 0.5f)) );
+            e.Graphics.DrawString("0", f,b,new Point(20, ((this.Height - 100) / 2) + 4) );
+
+            // +- a quater
+            e.Graphics.DrawLine(Pens.Black, new PointF(90, 30 + (length * 0.375f ) ), new PointF(100, 30 + (length * 0.375f)) );
+            e.Graphics.DrawString( (highestVal / 4).ToString(), f, b, new PointF(20, ((this.Height - 100) * 0.375f) + 4));
 
             
             //drawable wave stream:
@@ -412,7 +426,7 @@ namespace EatingWithYourEars
 
         private bool DetectBite(short highestSampleValue, int xValue)
         {
-
+            
 
 
 
@@ -420,8 +434,8 @@ namespace EatingWithYourEars
             {
                 globalHighest3 = highestSampleValue;
                 detectingChew3 = true;
-                //counter3 = 1;
-               
+            
+
             }
 
 
@@ -430,16 +444,14 @@ namespace EatingWithYourEars
 
                 if (detectingChew3)
                 {
-                    if (globalHighest3 - highestSampleValue > 550)
+                    if (globalHighest3 - highestSampleValue > 6000)
                     {
                         numOfBites++;
                         detectingChew3 = false;
+                      
                         return true;
                     }
-                    //else
-                    //{
-                    //    counter3++;
-                    //}
+                
                 }
                 else
                 {
