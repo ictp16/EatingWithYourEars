@@ -430,10 +430,10 @@ namespace EatingWithYourEars
 
                 if (detectingChew3)
                 {
-                    if (globalHighest3 - highestSampleValue > 5500)
+                    if ((globalHighest3 - highestSampleValue) > highestSampleValue * 65 )
                     {
                         numOfBites++;
-                        detectingChew3 = false;
+                        detectingChew3 = false; 
                       
                         return true;
                     }
