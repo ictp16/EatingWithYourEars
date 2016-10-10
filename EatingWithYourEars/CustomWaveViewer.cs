@@ -561,8 +561,7 @@ namespace EatingWithYourEars
             { range = second; }
             else
             { range = data.Max() - data.Min(); }
-
-
+            
             //figuring out average
             int sum = 0;
            
@@ -571,7 +570,6 @@ namespace EatingWithYourEars
                 sum += Convert.ToInt32(data[i]);
             }
             int avg = (sum / data.Count);
-
 
             //average for peaks
             int PeakSum = 0;
@@ -590,7 +588,9 @@ namespace EatingWithYourEars
 
             //apple: 12 //carrot: 8 //cashews: 18 //dried prumes: 6
 
-            if (avg > 480)
+
+
+            if (avg > 480) //for overly LOUD & CRUNCHY foods e.g. carrot
             {
 
                 for (int i = 0; i < data.Count; i++)
@@ -621,7 +621,8 @@ namespace EatingWithYourEars
                 }
             }
             
-            else if (avg < 480)
+            
+            else if (avg < 480) //seems to work well for softer foods
             {
                 for (int i = 0; i < data.Count; i++)
                 {
