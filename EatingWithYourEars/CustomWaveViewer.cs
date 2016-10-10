@@ -447,7 +447,10 @@ namespace EatingWithYourEars
             return;
         }
 
-
+        private void AllDataAvg(List<short> data)
+        {
+            
+        }
 
 
 
@@ -511,6 +514,7 @@ namespace EatingWithYourEars
                 waveStream.Position = 0;
                 int bytesRead;
                 byte[] waveData = new byte[constSamplesPerPixel * bytesPerSample];
+                List<short> AllData = new List<short>();
                 waveStream.Position = startPosition + (0 * bytesPerSample * constSamplesPerPixel);
                 for (int x = 0; x < 160000; x += 1)
                 {
@@ -530,13 +534,14 @@ namespace EatingWithYourEars
                     detectChew(high, x);
                     detectChew2(high, x);
                     DetectBite(high, x);
-
+                    AllData.Add(high);
 
                     if (waveStream.Position >= waveStream.Length - 1)
                     {
                         break;
                     }
                 }
+                AllDataAvg(AllData);
             }
         }
 
