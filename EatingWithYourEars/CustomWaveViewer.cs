@@ -76,7 +76,7 @@ namespace EatingWithYourEars
         private int topOffset = 0;
 
         // threshold variables for liam:
-        private float lowVariableForLiam = 120.0f, highVarableForLiam = 80.0f;
+        private float lowVariableForLiam = 120.0f, highVariableForLiam = 80.0f;
 
 
         // THESE ARE THE LEGACY VARIABLES:
@@ -253,6 +253,7 @@ namespace EatingWithYourEars
             numOfBites = 0;
             AvgBiteCount = 0;
             AvgChewCount = 0;
+
             //read the the audio data:
             readThroughData();
 
@@ -387,11 +388,15 @@ namespace EatingWithYourEars
             e.Graphics.DrawString(("0.00").ToString(), f, b, new PointF(leftOffset - 20, bottomOffset + 20));
 
             //plotting chew threshhold:
-            lowVariableForLiam = bottomOffset / 2 - lowVariableForLiam;
-            highVarableForLiam = bottomOffset / 2 - highVarableForLiam;
-            e.Graphics.DrawLine(Pens.MediumPurple, new PointF(leftOffset, lowVariableForLiam), new PointF(rightOffset, lowVariableForLiam));
-            e.Graphics.DrawLine(Pens.MediumPurple, new PointF(leftOffset, highVarableForLiam), new PointF(rightOffset, highVarableForLiam));
-            
+            if (lowVariableForLiam != 0 && highVariableForLiam != 0 && largestAmpValue != 0)
+            {
+                lowVariableForLiam = bottomOffset / 2 - ((lowVariableForLiam / largestAmpValue) * ((bottomOffset / 2) - topOffset));
+                highVariableForLiam = bottomOffset / 2 - ((highVariableForLiam / largestAmpValue) * ((bottomOffset / 2) - topOffset));
+
+                MessageBox.Show("low:" + lowVariableForLiam + " High: " + highVariableForLiam);
+                e.Graphics.DrawLine(Pens.MediumPurple, new PointF(leftOffset, lowVariableForLiam), new PointF(rightOffset, lowVariableForLiam));
+                e.Graphics.DrawLine(Pens.MediumPurple, new PointF(leftOffset, highVariableForLiam), new PointF(rightOffset, highVariableForLiam));
+            }
             
             // Plotting Chew Points (Commented out until i fix it up):
              
@@ -513,8 +518,8 @@ namespace EatingWithYourEars
             {
                 if (data[i] > avg * 12.5)
                 {
-                    highVarableForLiam = 100;
-                    lowVariableForLiam = 54;
+                    highVariableForLiam = high;
+                    lowVariableForLiam = avg;
                     AvgBiteCount++;
                     DrawBiteLocation.Add(i);
                 }
