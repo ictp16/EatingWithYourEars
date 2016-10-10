@@ -300,7 +300,7 @@ namespace EatingWithYourEars
                         if (sample > high) high = sample;
                     }
                     
-                    float highPercent3 = ((float)topOffset + (((float)high / (float)largestAmpValue) - 1.0f) * ((bottomOffset / 2.0f) - topOffset) * -1) ;
+                    float highPercent3 = ((float)topOffset + (((float)high / (float)largestAmpValue) - 1.0f) * ((bottomOffset / 2.0f) - 30.0f) * -1) ;
                     float lowPercent = (float)bottomOffset / 2.0f - (((float)low / (float) largestAmpValue) * (float)bottomOffset / 2.0f);
                     //MessageBox.Show("High: " + highPercent3);
                     e.Graphics.DrawLine(Pens.Black, x,highPercent3, x, lowPercent );
@@ -393,7 +393,7 @@ namespace EatingWithYourEars
                 lowVariableForLiam = bottomOffset / 2 - ((lowVariableForLiam / largestAmpValue) * ((bottomOffset / 2) - topOffset));
                 highVariableForLiam = bottomOffset / 2 - ((highVariableForLiam / largestAmpValue) * ((bottomOffset / 2) - topOffset));
 
-                MessageBox.Show("low:" + lowVariableForLiam + " High: " + highVariableForLiam);
+               // MessageBox.Show("low:" + lowVariableForLiam + " High: " + highVariableForLiam);
                 e.Graphics.DrawLine(Pens.MediumPurple, new PointF(leftOffset, lowVariableForLiam), new PointF(rightOffset, lowVariableForLiam));
                 e.Graphics.DrawLine(Pens.MediumPurple, new PointF(leftOffset, highVariableForLiam), new PointF(rightOffset, highVariableForLiam));
             }
