@@ -253,6 +253,8 @@ namespace EatingWithYourEars
             numOfBites = 0;
             AvgBiteCount = 0;
             AvgChewCount = 0;
+            lowestVal = 0;
+            highestVal = 0;
 
             //read the the audio data:
             readThroughData();
@@ -262,7 +264,19 @@ namespace EatingWithYourEars
             Brush b = new SolidBrush(Color.Red);
             //e.Graphics.DrawString("Samples Per Pixel (Visual): " + samplesPerPixel.ToString(), f, b, new Point(0, 10));
             e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "\tAmount of Bites: " + numOfBites.ToString() + "\t AllDataAvg: " + AvgBiteCount.ToString() + " " + AvgChewCount.ToString(), f, b, new Point(0, this.Height - 20));
-            
+
+            // work out if the lowest or the highest value is the largest amplitude value for the file:
+            int largestAmpValue = 0;
+            if ((lowestVal * -1) < highestVal)
+            {
+                largestAmpValue = highestVal;
+            }
+            else
+            {
+                largestAmpValue = lowestVal * -1;
+            }
+
+
             //drawable wave stream:
             int sampleCount = 0;
             if (waveStream != null)
@@ -285,18 +299,13 @@ namespace EatingWithYourEars
                         if (sample < low) low = sample;
                         if (sample > high) high = sample;
                     }
-                    float lowPercent = ((((float)low) - short.MinValue) / ushort.MaxValue);
-                    float highPercent = ((((float)high) - short.MinValue) / ushort.MaxValue);
-                    e.Graphics.DrawLine(Pens.Black, x, ((this.Height - 130) * lowPercent) + 30, x, ((this.Height - 130) * highPercent) + 30 );
+                    
+                    float highPercent3 = ((float)topOffset + (((float)high / (float)largestAmpValue) - 1.0f) * ((bottomOffset / 2.0f) - topOffset) * -1) ;
+                    float lowPercent = (float)bottomOffset / 2.0f - (((float)low / (float) largestAmpValue) * (float)bottomOffset / 2.0f);
+                    //MessageBox.Show("High: " + highPercent3);
+                    e.Graphics.DrawLine(Pens.Black, x,highPercent3, x, lowPercent );
                     sampleCount++;
-                    if (lowestVal > low)
-                    {
-                        lowestVal = low;
-                    }
-                    if (highestVal < high)
-                    {
-                        highestVal = high;
-                    }
+                    
                 }
 
             }
@@ -312,16 +321,7 @@ namespace EatingWithYourEars
             //draw Amplitude values:
             int length = bottomOffset - topOffset;
 
-            // work out if the lowest or the highest value is the largest amplitude value for the file:
-            int largestAmpValue = 0;
-            if ( (lowestVal * -1) < highestVal)
-            {
-                largestAmpValue = highestVal;
-            }
-            else
-            {
-                largestAmpValue = lowestVal * -1;
-            }
+           
 
             //zero:
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.5f)), new PointF(leftOffset, topOffset + (length * 0.5f)));
@@ -415,13 +415,13 @@ namespace EatingWithYourEars
                 e.Graphics.DrawLine(Pens.Green, 100 + trueXCoord, this.Height / 2 - 50 , 100 + trueXCoord, this.Height / 2 - 60);
             }
             */
-
+            /*
             for (int i = 0; i < DrawBiteLocation.Count; i++)
             {
                 float trueXCoord = DrawBiteLocation[i] / divisor;
                 //if (trueXCoord > this.Width - 50);
                 e.Graphics.DrawLine(Pens.Green, 100 + trueXCoord, this.Height / 2 - 100, 100 + trueXCoord, this.Height / 2 - 200);
-            }
+            }*/
             base.OnPaint(e);
         }
 
@@ -614,6 +614,15 @@ namespace EatingWithYourEars
                     detectChew2(high, x);
                     DetectBite(high, x);
                     AllData.Add(high);
+
+                    if (lowestVal > low)
+                    {
+                        lowestVal = low;
+                    }
+                    if (highestVal < high)
+                    {
+                        highestVal = high;
+                    }
 
                     if (waveStream.Position >= waveStream.Length - 1)
                     {
