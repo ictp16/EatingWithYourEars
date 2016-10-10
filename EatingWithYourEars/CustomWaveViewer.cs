@@ -262,7 +262,7 @@ namespace EatingWithYourEars
             Font f = new Font(FontFamily.GenericSansSerif, 12);
             Brush b = new SolidBrush(Color.Red);
             //e.Graphics.DrawString("Samples Per Pixel (Visual): " + samplesPerPixel.ToString(), f, b, new Point(0, 10));
-            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "\tAmount of Bites: " + numOfBites.ToString() + "\t AllDataAvg: " + AvgBiteCount.ToString() + " " + AvgChewCount.ToString(), f, b, new Point(0, this.Height - 20));
+            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "   \tAmount of Bites: " + numOfBites.ToString() + "\t AllDataAvg: " + AvgBiteCount.ToString() + " " + AvgChewCount.ToString(), f, b, new Point(0, this.Height - 20));
             
             //drawable wave stream:
             int sampleCount = 0;
@@ -537,46 +537,8 @@ namespace EatingWithYourEars
 
 
 
-        private bool DetectBite(List<short> data)
+        private void DetectBite(List<short> data)
         {
-
-            /*
-            for (int i = 0; i < Data.Count; i++)
-            {
-                int high = 
-                if (highestSampleValue > globalHighest3)
-                {
-                    globalHighest3 = highestSampleValue;
-                    detectingChew3 = true;
-
-
-                }
-
-
-                else if (highestSampleValue < globalHighest3)
-                {
-
-                    if (detectingChew3)
-                    {
-                        if (globalHighest3 - highestSampleValue > Avg)
-                        {
-                            numOfBites++;
-                            detectingChew3 = false;
-
-                            return true;
-                        }
-
-                    }
-                    else
-                    {
-                        globalHighest3 = highestSampleValue;
-                    }
-                }
-
-            }
-
-            return false;
-            */
             int sum = 0;
             int high = data[0];
             int low = data[0];
@@ -592,30 +554,41 @@ namespace EatingWithYourEars
                 {
                     low = data[i];
                 }
-                //Console.WriteLine(high + " " + low);
-                //Console.Out.WriteLine(data[i]);
+            
             }
             int avg = (sum / data.Count);
             Avg = avg;
-            //MessageBox.Show("I was going to clean my room, but then I got high " + high.ToString());
-            //For Checking the avg Amp for the local highs
-            //Console.WriteLine(avg);
-
+   
             for (int i = 0; i < data.Count; i++)
             {
-                if (data[i] > avg * 12.5)
+
+                if (data[i] > globalHighest3)
                 {
-                    highVariableForLiam = high;
-                    lowVariableForLiam = avg;
-                    AvgBiteCount++;
-                    DrawBiteLocation.Add(i);
+                    globalHighest3 = data[i];
+                    detectingChew3 = true;
                 }
-                if ((data[i] < avg) && (data[i] > (avg / 1.25)))
+               
+                    else if (data[i] < globalHighest3)
                 {
-                    AvgChewCount++;
+                    if (detectingChew3)
+                    {
+                        if (data[i] > avg * 19)
+                        {
+                            highVariableForLiam = high;
+                            lowVariableForLiam = avg;
+                            numOfBites++;
+                            detectingChew3 = false;
+                        }
+                    }
+                    else
+                    {
+                        globalHighest3 = data[i];
+                    }
                 }
+                
+
             }
-            return false;
+           
         }
 
 
