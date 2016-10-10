@@ -486,7 +486,7 @@ namespace EatingWithYourEars
 
             for(int i = 0; i < data.Count; i++)
             {
-                if(data[i] > (avg * 12.5))
+                if (data[i] > avg * 12.5)
                 {
                     AvgBiteCount++;
                     DrawBiteLocation.Add(i);
