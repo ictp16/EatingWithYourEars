@@ -554,48 +554,39 @@ namespace EatingWithYourEars
                 {
                     low = data[i];
                 }
-            
-            }
 
+            }
+            //figuring out average
             int avg = (sum / data.Count);
             Avg = avg;
-            MessageBox.Show(avg.ToString());
-   if(avg >470)
-            for (int i = 0; i < data.Count; i++)
+            
+            //figuring out second largest array value
+            int largest = int.MinValue;
+            int second = int.MinValue;
+            foreach (int j in data)
             {
+                if (j > largest)
+                {
+                    second = largest;
+                    largest = j;
+                }
+                else if (j > second)
+                    second = j;
+            }
+
+            //figuring out range
+            int range = 0;
+            if (data.Max() > second * 1.5)
+            { range = second; }
+            else
+            { range = data.Max() - data.Min(); }
+           
+
+            for (int i = 0; i < data.Count; i++)
+                {
+                
 
                 if (data[i] > globalHighest3)
-                {
-                    globalHighest3 = data[i];
-                    detectingChew3 = true;
-                }
-               else if (data[i] < globalHighest3)
-                {
-                    if (detectingChew3)
-                    {
-                            if (data[i] > avg * 15)
-                            {
-                                highVariableForLiam = high;
-                                lowVariableForLiam = avg;
-                                numOfBites++;
-                                detectingChew3 = false;
-                            }
-                      }
-                    else
-                    {
-                        globalHighest3 = data[i];
-                    }
-
-                    
-
-                } 
-
-            }
-   if(avg <470)
-                for (int i = 0; i < data.Count; i++)
-                {
-
-                    if (data[i] > globalHighest3)
                     {
                         globalHighest3 = data[i];
                         detectingChew3 = true;
@@ -604,7 +595,7 @@ namespace EatingWithYourEars
                     {
                         if (detectingChew3)
                         {
-                            if (data[i] > avg * 8)
+                            if (data[i] > range/3)
                             {
                                 highVariableForLiam = high;
                                 lowVariableForLiam = avg;
@@ -617,19 +608,46 @@ namespace EatingWithYourEars
                             globalHighest3 = data[i];
                         }
 
-
-
                     }
-
                 }
+           
+           //     else if (avg < 480)
+           //   {
+           //         for (int i = 0; i < data.Count; i++)
+           //         {
+
+           //             if (data[i] > globalHighest3)
+           //             {
+           //                 globalHighest3 = data[i];
+           //                 detectingChew3 = true;
+           //             }
+           //             else if (data[i] < globalHighest3)
+           //             {
+           //                 if (detectingChew3)
+           //                 {
+           //                     if (data[i] > avg * 7.5)
+           //                     {
+           //                         highVariableForLiam = high;
+           //                         lowVariableForLiam = avg;
+           //                         numOfBites++;
+           //                         detectingChew3 = false;
+           //                     }
+           //                 }
+           //                 else
+           //                 {
+           //                     globalHighest3 = data[i];
+           //                 }
+
+           //             }
+           //         }
+
+           //     }
+
+           
+
         }
 
-
-
-
-
-        
-
+    
 
         private void readThroughData()
         {
