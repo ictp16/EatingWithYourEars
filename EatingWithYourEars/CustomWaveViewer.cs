@@ -513,6 +513,8 @@ namespace EatingWithYourEars
             {
                 if (data[i] > avg * 12.5)
                 {
+                    highVarableForLiam = avg * 14;
+                    lowVariableForLiam = avg;
                     AvgBiteCount++;
                     DrawBiteLocation.Add(i);
                 }
