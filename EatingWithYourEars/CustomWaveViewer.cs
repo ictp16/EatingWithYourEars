@@ -556,9 +556,11 @@ namespace EatingWithYourEars
                 }
             
             }
+
             int avg = (sum / data.Count);
             Avg = avg;
-   
+            MessageBox.Show(avg.ToString());
+   if(avg >470)
             for (int i = 0; i < data.Count; i++)
             {
 
@@ -567,39 +569,66 @@ namespace EatingWithYourEars
                     globalHighest3 = data[i];
                     detectingChew3 = true;
                 }
-               
-                    else if (data[i] < globalHighest3)
+               else if (data[i] < globalHighest3)
                 {
                     if (detectingChew3)
                     {
-                        if (data[i] > avg * 19)
-                        {
-                            highVariableForLiam = high;
-                            lowVariableForLiam = avg;
-                            numOfBites++;
-                            detectingChew3 = false;
-                        }
-                    }
+                            if (data[i] > avg * 15)
+                            {
+                                highVariableForLiam = high;
+                                lowVariableForLiam = avg;
+                                numOfBites++;
+                                detectingChew3 = false;
+                            }
+                      }
                     else
                     {
                         globalHighest3 = data[i];
                     }
-                }
-                
+
+                    
+
+                } 
 
             }
-           
+   if(avg <470)
+                for (int i = 0; i < data.Count; i++)
+                {
+
+                    if (data[i] > globalHighest3)
+                    {
+                        globalHighest3 = data[i];
+                        detectingChew3 = true;
+                    }
+                    else if (data[i] < globalHighest3)
+                    {
+                        if (detectingChew3)
+                        {
+                            if (data[i] > avg * 8)
+                            {
+                                highVariableForLiam = high;
+                                lowVariableForLiam = avg;
+                                numOfBites++;
+                                detectingChew3 = false;
+                            }
+                        }
+                        else
+                        {
+                            globalHighest3 = data[i];
+                        }
+
+
+
+                    }
+
+                }
         }
 
 
 
 
 
-
-
-
-
-
+        
 
 
         private void readThroughData()
