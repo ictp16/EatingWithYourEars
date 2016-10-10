@@ -387,8 +387,8 @@ namespace EatingWithYourEars
             e.Graphics.DrawString(("0.00").ToString(), f, b, new PointF(leftOffset - 20, bottomOffset + 20));
 
             //plotting chew threshhold:
-            lowVariableForLiam += bottomOffset / 2;
-            highVarableForLiam += bottomOffset / 2;
+            lowVariableForLiam = bottomOffset / 2 - lowVariableForLiam;
+            highVarableForLiam = bottomOffset / 2 - highVarableForLiam;
             e.Graphics.DrawLine(Pens.MediumPurple, new PointF(leftOffset, lowVariableForLiam), new PointF(rightOffset, lowVariableForLiam));
             e.Graphics.DrawLine(Pens.MediumPurple, new PointF(leftOffset, highVarableForLiam), new PointF(rightOffset, highVarableForLiam));
             
