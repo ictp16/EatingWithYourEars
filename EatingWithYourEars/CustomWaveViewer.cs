@@ -372,7 +372,7 @@ namespace EatingWithYourEars
              
             float divisor = samplesPerPixel / constSamplesPerPixel;
 
-            for (int i = 0; i < drawableCoords.Count; i++)
+           /* for (int i = 0; i < drawableCoords.Count; i++)
             {
                 float trueXCoord = (drawableCoords[i] / divisor);
                 e.Graphics.DrawLine(Pens.Red, 100 + trueXCoord, this.Height / 2 - 20, 100 + trueXCoord, this.Height / 2 - 30);
@@ -383,7 +383,7 @@ namespace EatingWithYourEars
                 float trueXCoord = drawableCoords2[i] / divisor;
                 if (trueXCoord > this.Width - 50) ;
                 e.Graphics.DrawLine(Pens.Green, 100 + trueXCoord, this.Height / 2 - 50 , 100 + trueXCoord, this.Height / 2 - 60);
-            }
+            } */
 
             base.OnPaint(e);
         }
@@ -482,6 +482,7 @@ namespace EatingWithYourEars
                 if(data[i] > (avg * 13.5))
                 {
                     AvgBiteCount++;
+
                 }
                 if((data[i] < avg) && (data[i] > (avg / 1.25)))
                 {
