@@ -31,6 +31,7 @@ namespace EatingWithYourEars
         // for drawing:
         private List<int> drawableCoords = new List<int>();
         private int xTemp = 0;
+        private List<int> DrawBiteLocation = new List<int>();
 
         //for detectChew2(short highestChewValue)
         private int counter2 = 0;
@@ -372,7 +373,7 @@ namespace EatingWithYourEars
              
             float divisor = samplesPerPixel / constSamplesPerPixel;
 
-            for (int i = 0; i < drawableCoords.Count; i++)
+            /*for (int i = 0; i < drawableCoords.Count; i++)
             {
                 float trueXCoord = (drawableCoords[i] / divisor);
                 e.Graphics.DrawLine(Pens.Red, 100 + trueXCoord, this.Height / 2 - 20, 100 + trueXCoord, this.Height / 2 - 30);
@@ -384,7 +385,13 @@ namespace EatingWithYourEars
                 if (trueXCoord > this.Width - 50) ;
                 e.Graphics.DrawLine(Pens.Green, 100 + trueXCoord, this.Height / 2 - 50 , 100 + trueXCoord, this.Height / 2 - 60);
             }
-
+            */
+            for (int i = 0; i < DrawBiteLocation.Count; i++)
+            {
+                float trueXCoord = DrawBiteLocation[i] / divisor;
+                //if (trueXCoord > this.Width - 50);
+                e.Graphics.DrawLine(Pens.Green, 100 + trueXCoord, this.Height / 2 - 100, 100 + trueXCoord, this.Height / 2 - 200);
+            }
             base.OnPaint(e);
         }
 
@@ -469,7 +476,7 @@ namespace EatingWithYourEars
                 {
                     low = data[i];
                 }
-                Console.WriteLine(high + " " + low);
+                //Console.WriteLine(high + " " + low);
                 //Console.Out.WriteLine(data[i]);
             }
             int avg = (sum / data.Count);
@@ -479,9 +486,10 @@ namespace EatingWithYourEars
 
             for(int i = 0; i < data.Count; i++)
             {
-                if(data[i] > (avg * 13.5))
+                if(data[i] > (avg * 12.5))
                 {
                     AvgBiteCount++;
+                    DrawBiteLocation.Add(i);
                 }
                 if((data[i] < avg) && (data[i] > (avg / 1.25)))
                 {
