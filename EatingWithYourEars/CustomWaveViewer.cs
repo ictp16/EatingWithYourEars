@@ -370,12 +370,13 @@ namespace EatingWithYourEars
             for (int i = 0; i < drawableCoords.Count; i++)
             {
                 float trueXCoord = (drawableCoords[i] / divisor);
-                e.Graphics.DrawLine(Pens.Red, 100 + trueXCoord, this.Height / 2, 100 + trueXCoord, this.Height / 2 - 10);
+                e.Graphics.DrawLine(Pens.Red, 100 + trueXCoord, this.Height / 2 - 20, 100 + trueXCoord, this.Height / 2 - 30);
             }
 
             for (int i = 0; i < drawableCoords2.Count; i++)
             {
                 float trueXCoord = drawableCoords2[i] / divisor;
+                if (trueXCoord > this.Width - 50) ;
                 e.Graphics.DrawLine(Pens.Green, 100 + trueXCoord, this.Height / 2 - 50 , 100 + trueXCoord, this.Height / 2 - 60);
             }
 
