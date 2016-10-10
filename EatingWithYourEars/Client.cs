@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
+using System.IO;
 
 namespace EatingWithYourEars
 {
@@ -21,7 +22,15 @@ namespace EatingWithYourEars
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog openWave = new OpenFileDialog();
+            String exeDir = Path.GetDirectoryName(Application.ExecutablePath.ToString());
+            exeDir = Directory.GetParent(exeDir).ToString();
+            exeDir = Directory.GetParent(exeDir).ToString();
+
+            exeDir = exeDir + @"\Audio_Files\";
+
+            openWave.InitialDirectory = exeDir;
             openWave.Filter = "Wave File (*.wav)|*.wav;";
+           
             if (openWave.ShowDialog() != DialogResult.OK)
             {
                 return;
@@ -42,7 +51,7 @@ namespace EatingWithYourEars
             {
                 fullFileToolStripMenuItem.Checked = false;
                 WaveGraph.isZoomed = true;
-                WaveGraph.SamplesPerPixel = 1764;
+                WaveGraph.SamplesPerPixel = WaveGraph.constSamplesPerPixel;
                 WaveGraph.Invalidate();
             }
             else
@@ -53,5 +62,6 @@ namespace EatingWithYourEars
                 WaveGraph.Invalidate();
             }
         }
+
     }
 }

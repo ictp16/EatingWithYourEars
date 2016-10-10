@@ -31,9 +31,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.WaveGraph = new EatingWithYourEars.CustomWaveViewer();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.WaveGraph = new EatingWithYourEars.CustomWaveViewer();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,17 +63,6 @@
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
-            // WaveGraph
-            // 
-            this.WaveGraph.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.WaveGraph.Location = new System.Drawing.Point(0, 24);
-            this.WaveGraph.Name = "WaveGraph";
-            this.WaveGraph.SamplesPerPixel = 128;
-            this.WaveGraph.Size = new System.Drawing.Size(1491, 464);
-            this.WaveGraph.StartPosition = ((long)(0));
-            this.WaveGraph.TabIndex = 1;
-            this.WaveGraph.WaveStream = null;
-            // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -87,9 +76,20 @@
             this.fullFileToolStripMenuItem.Checked = true;
             this.fullFileToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.fullFileToolStripMenuItem.Name = "fullFileToolStripMenuItem";
-            this.fullFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.fullFileToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.fullFileToolStripMenuItem.Text = "Full Graph";
             this.fullFileToolStripMenuItem.Click += new System.EventHandler(this.fullFileToolStripMenuItem_Click);
+            // 
+            // WaveGraph
+            // 
+            this.WaveGraph.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.WaveGraph.Location = new System.Drawing.Point(0, 24);
+            this.WaveGraph.Name = "WaveGraph";
+            this.WaveGraph.SamplesPerPixel = 128;
+            this.WaveGraph.Size = new System.Drawing.Size(1491, 464);
+            this.WaveGraph.StartPosition = ((long)(0));
+            this.WaveGraph.TabIndex = 1;
+            this.WaveGraph.WaveStream = null;
             // 
             // Client
             // 
