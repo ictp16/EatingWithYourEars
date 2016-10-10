@@ -48,7 +48,7 @@ namespace EatingWithYourEars
         private int xTemp2 = 0;
 
         //constant samplesPerPixel value (usid in readData):
-        int constSamplesPerPixel = 1764; //1764
+        public int constSamplesPerPixel = 1764; //1764
 
         // flag for view samplesize:
         public bool isZoomed = false;
@@ -181,8 +181,13 @@ namespace EatingWithYourEars
             {
                 default:
                 case 0: // scrolling to the right
-                    if (drawPosition + amount > waveStream.Length - 1)
+                   // Console.Write(drawPosition);
+                   // Console.WriteLine("\t" + waveStream.Length);
+
+                    if (drawPosition > waveStream.Length - 151)
                     {
+                        drawPosition = (int)waveStream.Length - 150;
+                        Console.WriteLine("TESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSST");
                         break;
                     }
                     drawPosition += amount;
@@ -359,7 +364,7 @@ namespace EatingWithYourEars
             e.Graphics.DrawString(("0.00").ToString(), f, b, new PointF(80, this.Height - 80));
 
             // Plotting Chew Points (Commented out until i fix it up):
-            /* 
+             
             float divisor = samplesPerPixel / constSamplesPerPixel;
 
             for (int i = 0; i < drawableCoords.Count; i++)
@@ -372,7 +377,7 @@ namespace EatingWithYourEars
             {
                 float trueXCoord = drawableCoords2[i] / divisor;
                 e.Graphics.DrawLine(Pens.Green, 100 + trueXCoord, this.Height / 2 - 50 , 100 + trueXCoord, this.Height / 2 - 60);
-            }*/
+            }
 
             base.OnPaint(e);
         }

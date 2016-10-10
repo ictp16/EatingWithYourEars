@@ -42,7 +42,7 @@ namespace EatingWithYourEars
             {
                 fullFileToolStripMenuItem.Checked = false;
                 WaveGraph.isZoomed = true;
-                WaveGraph.SamplesPerPixel = 1764;
+                WaveGraph.SamplesPerPixel = WaveGraph.constSamplesPerPixel;
                 WaveGraph.Invalidate();
             }
             else
