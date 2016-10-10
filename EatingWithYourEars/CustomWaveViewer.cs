@@ -358,8 +358,7 @@ namespace EatingWithYourEars
             e.Graphics.DrawLine(Pens.Black, new PointF(100, this.Height - 100), new PointF(100, this.Height - 90));
             e.Graphics.DrawString(("0.00").ToString(), f, b, new PointF(80, this.Height - 80));
 
-            // Plotting Chew Points (Commented out until i fix it up):
-            /* 
+            
             float divisor = samplesPerPixel / constSamplesPerPixel;
 
             for (int i = 0; i < drawableCoords.Count; i++)
@@ -372,7 +371,7 @@ namespace EatingWithYourEars
             {
                 float trueXCoord = drawableCoords2[i] / divisor;
                 e.Graphics.DrawLine(Pens.Green, 100 + trueXCoord, this.Height / 2 - 50 , 100 + trueXCoord, this.Height / 2 - 60);
-            }*/
+            }
 
             base.OnPaint(e);
         }
@@ -441,7 +440,10 @@ namespace EatingWithYourEars
             return;
         }
 
+        private void DetectBiteAndChewBestMethodEver(List<short> Data)
+        {
 
+        }
 
 
 
@@ -505,8 +507,9 @@ namespace EatingWithYourEars
                 waveStream.Position = 0;
                 int bytesRead;
                 byte[] waveData = new byte[constSamplesPerPixel * bytesPerSample];
+                List<short> AllHighData = new List<short>();
                 waveStream.Position = startPosition + (0 * bytesPerSample * constSamplesPerPixel);
-                for (int x = 0; x < 160000; x += 1)
+                for (int x = 0; x < 160000; x++)
                 {
                     short low = 0;
                     short high = 0;
@@ -524,13 +527,15 @@ namespace EatingWithYourEars
                     detectChew(high, x);
                     detectChew2(high, x);
                     DetectBite(high, x);
-
+                    AllHighData.Add(high);
 
                     if (waveStream.Position >= waveStream.Length - 1)
                     {
                         break;
                     }
                 }
+                DetectBiteAndChewBestMethodEver(AllHighData);
+
             }
         }
 
