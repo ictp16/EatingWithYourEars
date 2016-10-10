@@ -540,28 +540,7 @@ namespace EatingWithYourEars
 
 
         private void DetectBite(List<short> data)
-        {
-            int sum = 0;
-            int high = data[0];
-            int low = data[0];
-
-            for (int i = 0; i < data.Count; i++)
-            {
-                sum += Convert.ToInt32(data[i]);
-                if (high < data[i])
-                {
-                    high = data[i];
-                }
-                if (low > data[i] && data[i] != 0)
-                {
-                    low = data[i];
-                }
-
-            }
-            //figuring out average
-            int avg = (sum / data.Count);
-            Avg = avg;
-            
+        { 
             //figuring out second largest array value
             int largest = int.MinValue;
             int second = int.MinValue;
@@ -582,8 +561,37 @@ namespace EatingWithYourEars
             { range = second; }
             else
             { range = data.Max() - data.Min(); }
-           
 
+
+            //figuring out average
+            int sum = 0;
+           
+            for (int i = 0; i < data.Count; i++)
+            {
+                sum += Convert.ToInt32(data[i]);
+            }
+            int avg = (sum / data.Count);
+
+
+            //average for peaks
+            int PeakSum = 0;
+            int counter = 0;
+
+            for (int i = 0; i < data.Count; i++)
+            { sum += Convert.ToInt32(data[i]);
+                if (data[i] > avg*10)
+                {
+                    PeakSum += Convert.ToInt32(data[i]);
+                    counter++;
+                }
+            }
+            int PeakAvg = (PeakSum / counter);
+            MessageBox.Show("Peaksum:"+PeakSum.ToString()+ "    counter: " + counter.ToString()+ "     avg:" + avg.ToString());
+
+            
+
+
+            //
             for (int i = 0; i < data.Count; i++)
                 {
                 
@@ -597,10 +605,8 @@ namespace EatingWithYourEars
                     {
                         if (detectingChew3)
                         {
-                            if (data[i] > range/3)
+                            if (data[i] > PeakAvg)
                             {
-                                highVariableForLiam = high;
-                                lowVariableForLiam = avg;
                                 numOfBites++;
                                 detectingChew3 = false;
                             }
