@@ -254,6 +254,8 @@ namespace EatingWithYourEars
             numOfBites = 0;
             AvgBiteCount = 0;
             AvgChewCount = 0;
+            highestVal = 0;
+            lowestVal = 0;
 
             //read the the audio data:
             readThroughData();
