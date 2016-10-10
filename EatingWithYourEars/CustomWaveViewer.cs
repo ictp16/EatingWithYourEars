@@ -579,14 +579,14 @@ namespace EatingWithYourEars
 
             for (int i = 0; i < data.Count; i++)
             { sum += Convert.ToInt32(data[i]);
-                if (data[i] > avg*10)
+                if (data[i] > range*0.26)
                 {
                     PeakSum += Convert.ToInt32(data[i]);
                     counter++;
                 }
             }
             int PeakAvg = (PeakSum / counter);
-            MessageBox.Show("Peaksum:"+PeakSum.ToString()+ "    counter: " + counter.ToString()+ "     avg:" + avg.ToString());
+            MessageBox.Show("Peaksum:"+PeakSum.ToString() + "    PeakAvg: " + PeakAvg.ToString() + "    counter: " + counter.ToString()+ "     range:" + range.ToString());
 
             
 
