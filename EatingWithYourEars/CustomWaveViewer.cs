@@ -43,6 +43,10 @@ namespace EatingWithYourEars
         private int numOfBites = 0;
         private short globalHighest3 = 0;
 
+        //For DataAllAvg no touchies
+        private int AvgBiteCount = 0;
+        private int AvgChewCount = 0;
+
         //Drawing:
         private List<int> drawableCoords2 = new List<int>();
         private int xTemp2 = 0;
@@ -229,7 +233,8 @@ namespace EatingWithYourEars
             numOfChews = 0;
             numOfChews2 = 0;
             numOfBites = 0;
-
+            AvgBiteCount = 0;
+            AvgChewCount = 0;
             //read the the audio data:
             readThroughData();
 
@@ -237,7 +242,7 @@ namespace EatingWithYourEars
             Font f = new Font(FontFamily.GenericSansSerif, 12);
             Brush b = new SolidBrush(Color.Red);
             //e.Graphics.DrawString("Samples Per Pixel (Visual): " + samplesPerPixel.ToString(), f, b, new Point(0, 10));
-            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "\tAmount of Bites: " + numOfBites.ToString(), f, b, new Point(0, this.Height - 20));
+            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "\tAmount of Bites: " + numOfBites.ToString() + "\t AllDataAvg: " + AvgBiteCount.ToString() + " " + AvgChewCount.ToString(), f, b, new Point(0, this.Height - 20));
             
             //drawable wave stream:
             int sampleCount = 0;
@@ -449,6 +454,40 @@ namespace EatingWithYourEars
 
         private void AllDataAvg(List<short> data)
         {
+            int sum = 0;
+            int high = data[0];
+            int low = data[0];
+
+            for(int i = 0; i < data.Count; i++)
+            {
+                sum += Convert.ToInt32(data[i]);
+                if(high < data[i])
+                {
+                    high = data[i];
+                }
+                if(low > data[i] && data[i] != 0)
+                {
+                    low = data[i];
+                }
+                Console.WriteLine(high + " " + low);
+                //Console.Out.WriteLine(data[i]);
+            }
+            int avg = (sum / data.Count);
+
+            //For Checking the avg Amp for the local highs
+            //Console.WriteLine(avg);
+
+            for(int i = 0; i < data.Count; i++)
+            {
+                if(data[i] > (avg * 13.5))
+                {
+                    AvgBiteCount++;
+                }
+                if((data[i] < avg) && (data[i] > (avg / 1.25)))
+                {
+                    AvgChewCount++;
+                }
+            }
             
         }
 
