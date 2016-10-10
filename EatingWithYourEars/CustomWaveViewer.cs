@@ -47,7 +47,7 @@ namespace EatingWithYourEars
         //For DataAllAvg no touchies
         private int AvgBiteCount = 0;
         private int AvgChewCount = 0;
-
+        private int avg = 0; 
         //Drawing:
         private List<int> drawableCoords2 = new List<int>();
         private int xTemp2 = 0;
@@ -236,6 +236,8 @@ namespace EatingWithYourEars
             numOfBites = 0;
             AvgBiteCount = 0;
             AvgChewCount = 0;
+            avg = 0;
+
             //read the the audio data:
             readThroughData();
 
@@ -479,7 +481,7 @@ namespace EatingWithYourEars
                 //Console.WriteLine(high + " " + low);
                 //Console.Out.WriteLine(data[i]);
             }
-            int avg = (sum / data.Count);
+             avg = (sum / data.Count);
 
             //For Checking the avg Amp for the local highs
             //Console.WriteLine(avg);
@@ -502,32 +504,26 @@ namespace EatingWithYourEars
 
 
 
-        private bool DetectBite(short highestSampleValue, int xValue)
+        private bool DetectBite(short highestSampleValue)
         {
             
-
-
-
             if (highestSampleValue > globalHighest3)
             {
                 globalHighest3 = highestSampleValue;
                 detectingChew3 = true;
-            
-
-            }
-
+                        }
 
             else if (highestSampleValue < globalHighest3)
             {
 
                 if (detectingChew3)
                 {
-                    if (globalHighest3 - highestSampleValue > 6000)
+                    if (globalHighest3 - highestSampleValue > 4545 )
                     {
                         numOfBites++;
-                        detectingChew3 = false; 
-                      
+                        detectingChew3 = false;
                         return true;
+                        
                     }
                 
                 }
@@ -536,20 +532,10 @@ namespace EatingWithYourEars
                     globalHighest3 = highestSampleValue;
                 }
             }
-
-
-
-            return false;
+                        return false;
         }
 
-
-
-
-
-
-
-
-
+        
 
 
 
@@ -580,7 +566,7 @@ namespace EatingWithYourEars
 
                     detectChew(high, x);
                     detectChew2(high, x);
-                    DetectBite(high, x);
+                    DetectBite(high);
                     AllData.Add(high);
 
                     if (waveStream.Position >= waveStream.Length - 1)
@@ -588,6 +574,7 @@ namespace EatingWithYourEars
                         break;
                     }
                 }
+             
                 AllDataAvg(AllData);
             }
         }
@@ -607,9 +594,15 @@ namespace EatingWithYourEars
             // 
             this.Name = "CustomWaveViewer";
             this.Size = new System.Drawing.Size(483, 374);
+            this.Load += new System.EventHandler(this.CustomWaveViewer_Load);
             this.ResumeLayout(false);
 
         }
         #endregion
+
+        private void CustomWaveViewer_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
