@@ -579,24 +579,25 @@ namespace EatingWithYourEars
 
             for (int i = 0; i < data.Count; i++)
             { sum += Convert.ToInt32(data[i]);
-                if (data[i] > range*0.26)
+                if (data[i] > range*0.3)
                 {
                     PeakSum += Convert.ToInt32(data[i]);
                     counter++;
                 }
             }
             int PeakAvg = (PeakSum / counter);
-            MessageBox.Show("Peaksum:"+PeakSum.ToString() + "    PeakAvg: " + PeakAvg.ToString() + "    counter: " + counter.ToString()+ "     range:" + range.ToString());
+            MessageBox.Show("Peaksum:"+PeakSum.ToString() + "    avg: " + avg.ToString() + "    PeakAvg: " + PeakAvg.ToString() + "    counter: " + counter.ToString()+ "     range:" + range.ToString());
 
-            
+            //apple: 12 //carrot: 8 //cashews: 18 //dried prumes: 6
 
+            if (avg > 480)
+            {
 
-            //
-            for (int i = 0; i < data.Count; i++)
+                for (int i = 0; i < data.Count; i++)
                 {
-                
 
-                if (data[i] > globalHighest3)
+
+                    if (data[i] > globalHighest3)
                     {
                         globalHighest3 = data[i];
                         detectingChew3 = true;
@@ -618,40 +619,39 @@ namespace EatingWithYourEars
 
                     }
                 }
-           
-           //     else if (avg < 480)
-           //   {
-           //         for (int i = 0; i < data.Count; i++)
-           //         {
+            }
+            
+            else if (avg < 480)
+            {
+                for (int i = 0; i < data.Count; i++)
+                {
 
-           //             if (data[i] > globalHighest3)
-           //             {
-           //                 globalHighest3 = data[i];
-           //                 detectingChew3 = true;
-           //             }
-           //             else if (data[i] < globalHighest3)
-           //             {
-           //                 if (detectingChew3)
-           //                 {
-           //                     if (data[i] > avg * 7.5)
-           //                     {
-           //                         highVariableForLiam = high;
-           //                         lowVariableForLiam = avg;
-           //                         numOfBites++;
-           //                         detectingChew3 = false;
-           //                     }
-           //                 }
-           //                 else
-           //                 {
-           //                     globalHighest3 = data[i];
-           //                 }
+                    if (data[i] > globalHighest3)
+                    {
+                        globalHighest3 = data[i];
+                        detectingChew3 = true;
+                    }
+                    else if (data[i] < globalHighest3)
+                    {
+                        if (detectingChew3)
+                        {
+                            if (data[i] > avg * 7.5)
+                            {
+                                numOfBites++;
+                                detectingChew3 = false;
+                            }
+                        }
+                        else
+                        {
+                            globalHighest3 = data[i];
+                        }
 
-           //             }
-           //         }
+                    }
+                }
 
-           //     }
+            }
 
-           
+
 
         }
 
