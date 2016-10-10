@@ -413,51 +413,37 @@ namespace EatingWithYourEars
         private bool DetectBite(short highestSampleValue, int xValue)
         {
             
-
-
-
-            if (highestSampleValue > globalHighest3)
-            {
-                globalHighest3 = highestSampleValue;
-                detectingChew3 = true;
-            
-
-            }
-
-
-            else if (highestSampleValue < globalHighest3)
-            {
-
-                if (detectingChew3)
-                {
-                    if ((globalHighest3 - highestSampleValue) > highestSampleValue * 65 )
-                    {
-                        numOfBites++;
-                        detectingChew3 = false; 
-                      
-                        return true;
-                    }
-                
-                }
-                else
+                if (highestSampleValue > globalHighest3)
                 {
                     globalHighest3 = highestSampleValue;
+                    detectingChew3 = true;
+
                 }
-            }
+                else if (highestSampleValue < globalHighest3)
+                {
 
+                    if (detectingChew3)
+                    {
+                        if ((globalHighest3 - highestSampleValue) > highestSampleValue * 230 /*25000*/ )
+                        {
+                            numOfBites++;
+                            detectingChew3 = false;
 
+                            return true;
+                        }
 
+                    }
+                    else
+                    {
+                        globalHighest3 = highestSampleValue;
+                    }
+                }
+           
             return false;
         }
 
 
-
-
-
-
-
-
-
+        
 
 
 
