@@ -292,14 +292,7 @@ namespace EatingWithYourEars
                     float highPercent = ((((float)high) - short.MinValue) / ushort.MaxValue);
                     e.Graphics.DrawLine(Pens.Black, x, ((this.Height - 130) * lowPercent) + 30, x, ((this.Height - 130) * highPercent) + 30 );
                     sampleCount++;
-                    if (lowestVal > low)
-                    {
-                        lowestVal = low;
-                    }
-                    if (highestVal < high)
-                    {
-                        highestVal = high;
-                    }
+                   
                 }
 
             }
@@ -692,6 +685,16 @@ namespace EatingWithYourEars
                     {
                         break;
                     }
+
+                    if (lowestVal > low)
+                    {
+                        lowestVal = low;
+                    }
+                    if (highestVal < high)
+                    {
+                        highestVal = high;
+                    }
+
                 }
                 DetectBite(AllData);
                 AllDataAvg(AllData);
