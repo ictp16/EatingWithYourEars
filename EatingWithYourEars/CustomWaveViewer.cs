@@ -80,6 +80,10 @@ namespace EatingWithYourEars
         // threshold variables for liam:
         private float lowVariableForLiam = 120.0f, highVariableForLiam = 80.0f;
 
+        // variables for trackBar:
+        public bool showTrackBar = false;
+        public volatile float trackBarX = 0;
+
 
         // THESE ARE THE LEGACY VARIABLES:
         /// <summary> 
@@ -422,9 +426,15 @@ namespace EatingWithYourEars
                 e.Graphics.DrawLine(Pens.MediumPurple, new PointF(leftOffset, highVariableForLiam), new PointF(rightOffset, highVariableForLiam));
             }
             
+            // Drawing Track Bar:
+            if (showTrackBar)
+            {
+                e.Graphics.DrawLine(Pens.Blue, new PointF((float)leftOffset + ( ((float)rightOffset - (float)leftOffset) * trackBarX), (float)topOffset), new PointF((float)leftOffset + (((float)rightOffset - (float)leftOffset) * trackBarX), (float)topOffset + (((float)bottomOffset - (float)topOffset) / 2.0f)));
+            }
+
             // Plotting Chew Points (Commented out until i fix it up):
              
-            float divisor = samplesPerPixel / constSamplesPerPixel;
+            //float divisor = samplesPerPixel / constSamplesPerPixel;
 
             /*for (int i = 0; i < drawableCoords.Count; i++)
             {

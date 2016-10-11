@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using NAudio.Wave;
 using System.IO;
@@ -17,6 +18,10 @@ namespace EatingWithYourEars
         //For playing audio:
         private WaveFileReader waveReader = null; // data source (File)
         private DirectSoundOut waveOutput = null; // data sink (headset)
+
+        // for looping the track bar:
+        public volatile bool trackBarThreadLooping = false;
+        private Thread trackBarThread = null;
 
         public Client()
         {
@@ -110,6 +115,7 @@ namespace EatingWithYourEars
             {
                 if (waveOutput.PlaybackState == PlaybackState.Playing)
                 {
+                    trackBarThreadLooping = false;
                     waveOutput.Pause();
                 }
             }
@@ -124,6 +130,16 @@ namespace EatingWithYourEars
                     waveOutput = new DirectSoundOut();
                     waveOutput.Init(new WaveChannel32(waveReader));
                     waveOutput.Play();
+
+                    // start track bar:
+                    if (trackBarThread != null)
+                    {
+                        trackBarThread = null;
+                    }
+                    trackBarThread = new Thread(new ThreadStart(moveTrackBar));
+                    trackBarThread.Start();
+                    WaveGraph.showTrackBar = true;
+                    WaveGraph.Invalidate();
                 }
             }
 
@@ -132,20 +148,47 @@ namespace EatingWithYourEars
                 if (waveOutput.PlaybackState == PlaybackState.Paused)
                 {
                     waveOutput.Play();
+                    // start track bar:
+                    if (trackBarThread != null)
+                    {
+                        while (trackBarThread.IsAlive)
+                        {
+                            Thread.Sleep(30);
+                        }
+                        trackBarThread = null;
+                    }
+                    trackBarThread = new Thread(new ThreadStart(moveTrackBar));
+                    trackBarThread.Start();
+                    WaveGraph.showTrackBar = true;
+                    WaveGraph.Invalidate();
                 }
             }
         }
 
         private void disposeWaveTrack()
         {
+            trackBarThreadLooping = false;
             if (waveOutput != null)
             {
                 if (waveOutput.PlaybackState == PlaybackState.Playing)
                 {
                     waveOutput.Stop();
+
                 }
                 waveOutput.Dispose();
                 waveOutput = null;
+
+                // hide track bar:
+                if (trackBarThread != null)
+                {
+                    while (trackBarThread.IsAlive)
+                    {
+                        Thread.Sleep(30);
+                    }
+                    trackBarThread = null;
+                }
+                WaveGraph.showTrackBar = false;
+                WaveGraph.Invalidate();
 
             }
             if (waveReader != null)
@@ -153,6 +196,24 @@ namespace EatingWithYourEars
                 waveReader.Dispose();
                 waveReader = null;
             }
+        }
+
+        
+        private void moveTrackBar()
+        {
+            trackBarThreadLooping = true;
+            while (trackBarThreadLooping)
+            {
+                float percentage = (float)waveOutput.GetPosition() / ((float)WaveGraph.WaveStream.Length * 2.0f); // multiply by two because we are feeding the auido into a 32 bit channel (when our graph is only 16bit).
+                WaveGraph.trackBarX = percentage;
+                WaveGraph.Invalidate();
+                if (percentage > 1.0f)
+                {
+                    Console.WriteLine("Test");
+                }
+                Thread.Sleep(10);
+            }
+            return;
         }
 
 
