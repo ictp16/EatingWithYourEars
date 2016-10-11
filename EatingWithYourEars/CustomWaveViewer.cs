@@ -332,35 +332,35 @@ namespace EatingWithYourEars
 
             //zero:
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.5f)), new PointF(leftOffset, topOffset + (length * 0.5f)));
-            e.Graphics.DrawString("0", f, b, new PointF(leftOffset - 80, topOffset + (length * 0.5f) - 10));
+            e.Graphics.DrawString("0", f, b, new PointF(leftOffset - 90, topOffset + (length * 0.5f) - 10));
 
             // +- a quater
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.375f)), new PointF(leftOffset, topOffset + (length * 0.375f)));
-            e.Graphics.DrawString((largestAmpValue / 4).ToString(), f, b, new PointF(leftOffset - 80, (topOffset + (length * 0.375f)) - 10));
+            e.Graphics.DrawString((largestAmpValue / 4).ToString(), f, b, new PointF(leftOffset - 90, (topOffset + (length * 0.375f)) - 10));
 
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.625f)), new PointF(leftOffset, topOffset + (length * 0.625f)));
-            e.Graphics.DrawString((largestAmpValue / 4).ToString(), f, b, new PointF(leftOffset - 80, (topOffset + (length * 0.625f)) - 10));
+            e.Graphics.DrawString("-" + (largestAmpValue / 4).ToString(), f, b, new PointF(leftOffset - 90, (topOffset + (length * 0.625f)) - 10));
 
             // +- a half
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.25f)), new PointF(leftOffset, topOffset + (length * 0.25f)));
-            e.Graphics.DrawString((largestAmpValue / 2).ToString(), f, b, new PointF(leftOffset - 80, topOffset + (length * 0.25f) - 10));
+            e.Graphics.DrawString((largestAmpValue / 2).ToString(), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.25f) - 10));
 
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.75f)), new PointF(leftOffset, topOffset + (length * 0.75f)));
-            e.Graphics.DrawString((largestAmpValue / 2).ToString(), f, b, new PointF(leftOffset - 80, topOffset + (length * 0.75f) - 10));
+            e.Graphics.DrawString("-" + (largestAmpValue / 2).ToString(), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.75f) - 10));
 
             // +- three quarters
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.125f)), new PointF(leftOffset, topOffset + (length * 0.125f)));
-            e.Graphics.DrawString((largestAmpValue * 0.75f).ToString(), f, b, new PointF(leftOffset - 80, topOffset + (length * 0.125f) - 10));
+            e.Graphics.DrawString((largestAmpValue * 0.75f).ToString(), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.125f) - 10));
 
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.875f)), new PointF(leftOffset, topOffset + (length * 0.875f)));
-            e.Graphics.DrawString((largestAmpValue * 0.75f).ToString(), f, b, new PointF(leftOffset - 80, topOffset + (length * 0.875f) - 10 ));
+            e.Graphics.DrawString("-" + (largestAmpValue * 0.75f).ToString(), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.875f) - 10 ));
 
             // +- full
             e.Graphics.DrawLine(Pens.Black, new Point(leftOffset - 10, topOffset), new Point(leftOffset, topOffset));
-            e.Graphics.DrawString((largestAmpValue).ToString(), f, b, new PointF(leftOffset - 80, (topOffset - 10)));
+            e.Graphics.DrawString((largestAmpValue).ToString(), f, b, new PointF(leftOffset - 90, (topOffset - 10)));
 
             e.Graphics.DrawLine(Pens.Black, new Point(leftOffset - 10, bottomOffset), new Point(leftOffset, bottomOffset));
-            e.Graphics.DrawString((largestAmpValue).ToString(), f, b, new PointF(leftOffset - 80, bottomOffset - 10));
+            e.Graphics.DrawString("-" + (largestAmpValue).ToString(), f, b, new PointF(leftOffset - 90, bottomOffset - 10));
 
 
 
