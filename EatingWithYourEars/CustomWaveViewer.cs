@@ -267,7 +267,7 @@ namespace EatingWithYourEars
             e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "   \tAmount of Bites: " + numOfBites.ToString() + "\t AllDataAvg: " + AvgBiteCount.ToString() + " " + AvgChewCount.ToString(), f, b, new Point(0, this.Height - 20));
 
             // work out if the lowest or the highest value is the largest amplitude value for the file:
-            int largestAmpValue = 0;
+            float largestAmpValue = 0;
             if ((lowestVal * -1) < highestVal)
             {
                 largestAmpValue = highestVal;
@@ -276,6 +276,8 @@ namespace EatingWithYourEars
             {
                 largestAmpValue = lowestVal * -1;
             }
+
+            
 
             //drawable wave stream:
             int sampleCount = 0;
@@ -324,6 +326,14 @@ namespace EatingWithYourEars
             e.Graphics.DrawLine(Pens.Black, new Point(leftOffset, bottomOffset), new Point(rightOffset, bottomOffset));
 
 
+            // resizing th y scale depending if zommed in or not:
+            if (isZoomed)
+            {
+                int samples = (int)(waveStream.Length / bytesPerSample);
+                float screenSamples = samples / (this.Width - 50.0f - 101.0f);
+                //MessageBox.Show("Test " + ((float)constSamplesPerPixel / (float)samplesPerPixel).ToString());
+                largestAmpValue = largestAmpValue * ((float)constSamplesPerPixel / screenSamples);
+            }
 
             //draw Amplitude values:
             int length = bottomOffset - topOffset;
@@ -332,35 +342,35 @@ namespace EatingWithYourEars
 
             //zero:
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.5f)), new PointF(leftOffset, topOffset + (length * 0.5f)));
-            e.Graphics.DrawString("0", f, b, new PointF(leftOffset - 90, topOffset + (length * 0.5f) - 10));
+            e.Graphics.DrawString("0.00", f, b, new PointF(leftOffset - 90, topOffset + (length * 0.5f) - 10));
 
             // +- a quater
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.375f)), new PointF(leftOffset, topOffset + (length * 0.375f)));
-            e.Graphics.DrawString((largestAmpValue / 4).ToString(), f, b, new PointF(leftOffset - 90, (topOffset + (length * 0.375f)) - 10));
+            e.Graphics.DrawString((largestAmpValue / 4).ToString("0.00"), f, b, new PointF(leftOffset - 90, (topOffset + (length * 0.375f)) - 10));
 
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.625f)), new PointF(leftOffset, topOffset + (length * 0.625f)));
-            e.Graphics.DrawString("-" + (largestAmpValue / 4).ToString(), f, b, new PointF(leftOffset - 90, (topOffset + (length * 0.625f)) - 10));
+            e.Graphics.DrawString("-" + (largestAmpValue / 4).ToString("0.00"), f, b, new PointF(leftOffset - 90, (topOffset + (length * 0.625f)) - 10));
 
             // +- a half
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.25f)), new PointF(leftOffset, topOffset + (length * 0.25f)));
-            e.Graphics.DrawString((largestAmpValue / 2).ToString(), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.25f) - 10));
+            e.Graphics.DrawString((largestAmpValue / 2).ToString("0.00"), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.25f) - 10));
 
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.75f)), new PointF(leftOffset, topOffset + (length * 0.75f)));
-            e.Graphics.DrawString("-" + (largestAmpValue / 2).ToString(), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.75f) - 10));
+            e.Graphics.DrawString("-" + (largestAmpValue / 2).ToString("0.00"), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.75f) - 10));
 
             // +- three quarters
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.125f)), new PointF(leftOffset, topOffset + (length * 0.125f)));
-            e.Graphics.DrawString((largestAmpValue * 0.75f).ToString(), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.125f) - 10));
+            e.Graphics.DrawString((largestAmpValue * 0.75f).ToString("0.00"), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.125f) - 10));
 
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.875f)), new PointF(leftOffset, topOffset + (length * 0.875f)));
-            e.Graphics.DrawString("-" + (largestAmpValue * 0.75f).ToString(), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.875f) - 10 ));
+            e.Graphics.DrawString("-" + (largestAmpValue * 0.75f).ToString("0.00"), f, b, new PointF(leftOffset - 90, topOffset + (length * 0.875f) - 10 ));
 
             // +- full
             e.Graphics.DrawLine(Pens.Black, new Point(leftOffset - 10, topOffset), new Point(leftOffset, topOffset));
-            e.Graphics.DrawString((largestAmpValue).ToString(), f, b, new PointF(leftOffset - 90, (topOffset - 10)));
+            e.Graphics.DrawString((largestAmpValue).ToString("0.00"), f, b, new PointF(leftOffset - 90, (topOffset - 10)));
 
             e.Graphics.DrawLine(Pens.Black, new Point(leftOffset - 10, bottomOffset), new Point(leftOffset, bottomOffset));
-            e.Graphics.DrawString("-" + (largestAmpValue).ToString(), f, b, new PointF(leftOffset - 90, bottomOffset - 10));
+            e.Graphics.DrawString("-" + (largestAmpValue).ToString("0.00"), f, b, new PointF(leftOffset - 90, bottomOffset - 10));
 
 
 
