@@ -14,6 +14,10 @@ namespace EatingWithYourEars
 {
     public partial class Client : Form
     {
+        //For playing audio:
+        private WaveFileReader waveReader = null; // data source (File)
+        private DirectSoundOut waveOutput = null; // data sink (headset)
+
         public Client()
         {
             InitializeComponent();
@@ -37,6 +41,14 @@ namespace EatingWithYourEars
             }
             string chopPath = openWave.FileName.Split('\\')[openWave.FileName.Split('\\').Length - 1];
             NameField.Text = chopPath;
+
+            // ready track for playing:
+            disposeWaveTrack();
+            waveReader = new WaveFileReader(openWave.FileName);
+            byte[] b = new byte[16000];
+            waveReader.Read(b, 0, 15000);
+
+            // setup custom wave viewer and draw graph:
             WaveGraph.isZoomed = false;
             fullFileToolStripMenuItem.Checked = true;
             WaveGraph.WaveStream = new WaveFileReader(openWave.FileName);
@@ -47,6 +59,7 @@ namespace EatingWithYourEars
         private void Client_FormClosing(object sender, FormClosingEventArgs e)
         {
             WaveGraph.Dispose();
+            disposeWaveTrack();
         }
 
         private void fullFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -73,11 +86,13 @@ namespace EatingWithYourEars
             {
                 PlayPauseButton.Text = "Pause";
                 // Play the song!
+                playTrack();
             }
             else if (PlayPauseButton.Text == "Pause")
             {
                 PlayPauseButton.Text = "Play";
                 // Pause the song!
+                pauseTrack();
             }
 
         }
@@ -91,12 +106,53 @@ namespace EatingWithYourEars
 
         private void pauseTrack()
         {
-
+            if (waveOutput != null)
+            {
+                if (waveOutput.PlaybackState == PlaybackState.Playing)
+                {
+                    waveOutput.Pause();
+                }
+            }
         }
 
         private void playTrack()
         {
+            if (waveOutput == null)
+            {
+                if (waveReader != null)
+                {
+                    waveOutput = new DirectSoundOut();
+                    waveOutput.Init(new WaveChannel32(waveReader));
+                    waveOutput.Play();
+                }
+            }
 
+            else if (waveOutput != null)
+            {
+                if (waveOutput.PlaybackState == PlaybackState.Paused)
+                {
+                    waveOutput.Play();
+                }
+            }
+        }
+
+        private void disposeWaveTrack()
+        {
+            if (waveOutput != null)
+            {
+                if (waveOutput.PlaybackState == PlaybackState.Playing)
+                {
+                    waveOutput.Stop();
+                }
+                waveOutput.Dispose();
+                waveOutput = null;
+
+            }
+            if (waveReader != null)
+            {
+                waveReader.Dispose();
+                waveReader = null;
+            }
         }
 
 
