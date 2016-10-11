@@ -39,7 +39,10 @@
             this.SpeedLabel = new System.Windows.Forms.Label();
             this.NameField = new System.Windows.Forms.Label();
             this.WaveGraph = new EatingWithYourEars.CustomWaveViewer();
+            this.VolumeTrackBar = new System.Windows.Forms.TrackBar();
+            this.VolumeLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.VolumeTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -106,6 +109,7 @@
             // 
             // TrackSpeedList
             // 
+            this.TrackSpeedList.Enabled = false;
             this.TrackSpeedList.FormattingEnabled = true;
             this.TrackSpeedList.Items.AddRange(new object[] {
             "0.25x",
@@ -125,9 +129,9 @@
             this.SpeedLabel.AutoSize = true;
             this.SpeedLabel.Location = new System.Drawing.Point(491, 504);
             this.SpeedLabel.Name = "SpeedLabel";
-            this.SpeedLabel.Size = new System.Drawing.Size(72, 13);
+            this.SpeedLabel.Size = new System.Drawing.Size(122, 13);
             this.SpeedLabel.TabIndex = 5;
-            this.SpeedLabel.Text = "Track Speed:";
+            this.SpeedLabel.Text = "Track Speed: (Disabled)";
             // 
             // NameField
             // 
@@ -150,11 +154,31 @@
             this.WaveGraph.TabIndex = 1;
             this.WaveGraph.WaveStream = null;
             // 
+            // VolumeTrackBar
+            // 
+            this.VolumeTrackBar.Location = new System.Drawing.Point(642, 529);
+            this.VolumeTrackBar.Name = "VolumeTrackBar";
+            this.VolumeTrackBar.Size = new System.Drawing.Size(221, 45);
+            this.VolumeTrackBar.TabIndex = 7;
+            this.VolumeTrackBar.Value = 5;
+            this.VolumeTrackBar.ValueChanged += new System.EventHandler(this.VolumeTrackBar_ValueChanged);
+            // 
+            // VolumeLabel
+            // 
+            this.VolumeLabel.AutoSize = true;
+            this.VolumeLabel.Location = new System.Drawing.Point(639, 504);
+            this.VolumeLabel.Name = "VolumeLabel";
+            this.VolumeLabel.Size = new System.Drawing.Size(45, 13);
+            this.VolumeLabel.TabIndex = 8;
+            this.VolumeLabel.Text = "Volume:";
+            // 
             // Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1491, 560);
+            this.Controls.Add(this.VolumeLabel);
+            this.Controls.Add(this.VolumeTrackBar);
             this.Controls.Add(this.NameField);
             this.Controls.Add(this.SpeedLabel);
             this.Controls.Add(this.TrackSpeedList);
@@ -168,6 +192,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Client_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.VolumeTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -186,6 +211,8 @@
         private System.Windows.Forms.ComboBox TrackSpeedList;
         private System.Windows.Forms.Label SpeedLabel;
         private System.Windows.Forms.Label NameField;
+        private System.Windows.Forms.TrackBar VolumeTrackBar;
+        private System.Windows.Forms.Label VolumeLabel;
     }
 }
 

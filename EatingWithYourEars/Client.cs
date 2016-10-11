@@ -27,6 +27,9 @@ namespace EatingWithYourEars
         private Dispatcher dispatcher = null;
         private volatile bool resetTrack = false;
 
+        // for manipulating volume:
+        private WaveChannel32 outputChannel = null;
+
         public Client()
         {
             InitializeComponent();
@@ -151,7 +154,10 @@ namespace EatingWithYourEars
                 if (waveReader != null)
                 {
                     waveOutput = new DirectSoundOut();
-                    waveOutput.Init(new WaveChannel32(waveReader));
+                    outputChannel = new WaveChannel32(waveReader);
+                    outputChannel.Volume = ((float)VolumeTrackBar.Value / 10.0f);
+                    waveOutput.Init(outputChannel);
+                     
                     waveOutput.Play();
 
                     // start track bar:
@@ -246,6 +252,12 @@ namespace EatingWithYourEars
             return;
         }
 
-
+        private void VolumeTrackBar_ValueChanged(object sender, EventArgs e)
+        {
+            if (outputChannel != null)
+            {
+                outputChannel.Volume = ((float)VolumeTrackBar.Value / 10.0f);
+            }
+        }
     }
 }
