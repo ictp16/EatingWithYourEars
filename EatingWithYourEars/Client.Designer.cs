@@ -33,6 +33,11 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PlayPauseButton = new System.Windows.Forms.Button();
+            this.NameLabel = new System.Windows.Forms.Label();
+            this.TrackSpeedList = new System.Windows.Forms.ComboBox();
+            this.SpeedLabel = new System.Windows.Forms.Label();
+            this.NameField = new System.Windows.Forms.Label();
             this.WaveGraph = new EatingWithYourEars.CustomWaveViewer();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -80,9 +85,63 @@
             this.fullFileToolStripMenuItem.Text = "Full Graph";
             this.fullFileToolStripMenuItem.Click += new System.EventHandler(this.fullFileToolStripMenuItem_Click);
             // 
+            // PlayPauseButton
+            // 
+            this.PlayPauseButton.Location = new System.Drawing.Point(385, 506);
+            this.PlayPauseButton.Name = "PlayPauseButton";
+            this.PlayPauseButton.Size = new System.Drawing.Size(83, 46);
+            this.PlayPauseButton.TabIndex = 2;
+            this.PlayPauseButton.Text = "Play";
+            this.PlayPauseButton.UseVisualStyleBackColor = true;
+            this.PlayPauseButton.Click += new System.EventHandler(this.PlayPauseButton_Click);
+            // 
+            // NameLabel
+            // 
+            this.NameLabel.AutoSize = true;
+            this.NameLabel.Location = new System.Drawing.Point(18, 504);
+            this.NameLabel.Name = "NameLabel";
+            this.NameLabel.Size = new System.Drawing.Size(69, 13);
+            this.NameLabel.TabIndex = 3;
+            this.NameLabel.Text = "Track Name:";
+            // 
+            // TrackSpeedList
+            // 
+            this.TrackSpeedList.FormattingEnabled = true;
+            this.TrackSpeedList.Items.AddRange(new object[] {
+            "0.25x",
+            "0.50x",
+            "1.00x",
+            "1.50x",
+            "2.00x"});
+            this.TrackSpeedList.Location = new System.Drawing.Point(494, 531);
+            this.TrackSpeedList.Name = "TrackSpeedList";
+            this.TrackSpeedList.Size = new System.Drawing.Size(121, 21);
+            this.TrackSpeedList.TabIndex = 4;
+            this.TrackSpeedList.Text = "1.00x";
+            this.TrackSpeedList.SelectedIndexChanged += new System.EventHandler(this.TrackSpeedList_SelectedIndexChanged);
+            // 
+            // SpeedLabel
+            // 
+            this.SpeedLabel.AutoSize = true;
+            this.SpeedLabel.Location = new System.Drawing.Point(491, 504);
+            this.SpeedLabel.Name = "SpeedLabel";
+            this.SpeedLabel.Size = new System.Drawing.Size(72, 13);
+            this.SpeedLabel.TabIndex = 5;
+            this.SpeedLabel.Text = "Track Speed:";
+            // 
+            // NameField
+            // 
+            this.NameField.AutoSize = true;
+            this.NameField.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NameField.Location = new System.Drawing.Point(18, 529);
+            this.NameField.Name = "NameField";
+            this.NameField.Size = new System.Drawing.Size(39, 20);
+            this.NameField.TabIndex = 6;
+            this.NameField.Text = "N.A.";
+            // 
             // WaveGraph
             // 
-            this.WaveGraph.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.WaveGraph.Dock = System.Windows.Forms.DockStyle.Top;
             this.WaveGraph.Location = new System.Drawing.Point(0, 24);
             this.WaveGraph.Name = "WaveGraph";
             this.WaveGraph.SamplesPerPixel = 128;
@@ -95,7 +154,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1491, 488);
+            this.ClientSize = new System.Drawing.Size(1491, 560);
+            this.Controls.Add(this.NameField);
+            this.Controls.Add(this.SpeedLabel);
+            this.Controls.Add(this.TrackSpeedList);
+            this.Controls.Add(this.NameLabel);
+            this.Controls.Add(this.PlayPauseButton);
             this.Controls.Add(this.WaveGraph);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -117,6 +181,11 @@
         private CustomWaveViewer WaveGraph;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem fullFileToolStripMenuItem;
+        private System.Windows.Forms.Button PlayPauseButton;
+        private System.Windows.Forms.Label NameLabel;
+        private System.Windows.Forms.ComboBox TrackSpeedList;
+        private System.Windows.Forms.Label SpeedLabel;
+        private System.Windows.Forms.Label NameField;
     }
 }
 

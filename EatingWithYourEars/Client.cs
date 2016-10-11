@@ -35,6 +35,8 @@ namespace EatingWithYourEars
             {
                 return;
             }
+            string chopPath = openWave.FileName.Split('\\')[openWave.FileName.Split('\\').Length - 1];
+            NameField.Text = chopPath;
             WaveGraph.isZoomed = false;
             fullFileToolStripMenuItem.Checked = true;
             WaveGraph.WaveStream = new WaveFileReader(openWave.FileName);
@@ -64,6 +66,39 @@ namespace EatingWithYourEars
                 WaveGraph.Invalidate();
             }
         }
+
+        private void PlayPauseButton_Click(object sender, EventArgs e)
+        {
+            if (PlayPauseButton.Text == "Play")
+            {
+                PlayPauseButton.Text = "Pause";
+                // Play the song!
+            }
+            else if (PlayPauseButton.Text == "Pause")
+            {
+                PlayPauseButton.Text = "Play";
+                // Pause the song!
+            }
+
+        }
+
+        private void TrackSpeedList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // pause the song
+
+            // play the song at a new speed.
+        }
+
+        private void pauseTrack()
+        {
+
+        }
+
+        private void playTrack()
+        {
+
+        }
+
 
     }
 }
