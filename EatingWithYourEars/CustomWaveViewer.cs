@@ -429,6 +429,7 @@ namespace EatingWithYourEars
             // Drawing Track Bar:
             if (showTrackBar)
             {
+                //Console.WriteLine("Test");
                 e.Graphics.DrawLine(Pens.Blue, new PointF((float)leftOffset + ( ((float)rightOffset - (float)leftOffset) * trackBarX), (float)topOffset), new PointF((float)leftOffset + (((float)rightOffset - (float)leftOffset) * trackBarX), (float)topOffset + (((float)bottomOffset - (float)topOffset) / 2.0f)));
             }
 

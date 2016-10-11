@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Windows.Threading;
 using System.Windows.Forms;
 using NAudio.Wave;
 using System.IO;
@@ -22,10 +23,14 @@ namespace EatingWithYourEars
         // for looping the track bar:
         public volatile bool trackBarThreadLooping = false;
         private Thread trackBarThread = null;
+        private string trackPath = "";
+        private Dispatcher dispatcher = null;
+        private volatile bool resetTrack = false;
 
         public Client()
         {
             InitializeComponent();
+            dispatcher = Dispatcher.CurrentDispatcher;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -44,6 +49,7 @@ namespace EatingWithYourEars
             {
                 return;
             }
+            trackPath = openWave.FileName;
             string chopPath = openWave.FileName.Split('\\')[openWave.FileName.Split('\\').Length - 1];
             NameField.Text = chopPath;
 
@@ -72,16 +78,22 @@ namespace EatingWithYourEars
             if (fullFileToolStripMenuItem.Checked)
             {
                 fullFileToolStripMenuItem.Checked = false;
-                WaveGraph.isZoomed = true;
-                WaveGraph.SamplesPerPixel = WaveGraph.constSamplesPerPixel;
-                WaveGraph.Invalidate();
+                if (WaveGraph.WaveStream != null)
+                {
+                    WaveGraph.isZoomed = true;
+                    WaveGraph.SamplesPerPixel = WaveGraph.constSamplesPerPixel;
+                    WaveGraph.Invalidate();
+                }
             }
             else
             {
                 fullFileToolStripMenuItem.Checked = true;
-                WaveGraph.isZoomed = false;
-                WaveGraph.fitToGraph();
-                WaveGraph.Invalidate();
+                if (WaveGraph.WaveStream != null)
+                {
+                    WaveGraph.isZoomed = false;
+                    WaveGraph.fitToGraph();
+                    WaveGraph.Invalidate();
+                }
             }
         }
 
@@ -123,6 +135,17 @@ namespace EatingWithYourEars
 
         private void playTrack()
         {
+            if (resetTrack)
+            {
+                // restart track:
+                resetTrack = false;
+                Console.WriteLine("Test");
+                disposeWaveTrack();
+                waveReader = new WaveFileReader(trackPath);
+                byte[] b = new byte[16000];
+                waveReader.Read(b, 0, 15000);
+            }
+
             if (waveOutput == null)
             {
                 if (waveReader != null)
@@ -204,14 +227,21 @@ namespace EatingWithYourEars
             trackBarThreadLooping = true;
             while (trackBarThreadLooping)
             {
-                float percentage = (float)waveOutput.GetPosition() / ((float)WaveGraph.WaveStream.Length * 2.0f); // multiply by two because we are feeding the auido into a 32 bit channel (when our graph is only 16bit).
+                float percentage = (float)waveReader.Position / ((float)WaveGraph.WaveStream.Length);
                 WaveGraph.trackBarX = percentage;
                 WaveGraph.Invalidate();
-                if (percentage > 1.0f)
+                if (percentage >= 1.0f)
                 {
-                    Console.WriteLine("Test");
+                    resetTrack = true;
+                    trackBarThreadLooping = false;
+                    dispatcher.Invoke(
+                        DispatcherPriority.Normal,
+                        new Action(
+                            delegate()
+                            {
+                                PlayPauseButton.Text = "Play";
+                            }));
                 }
-                Thread.Sleep(10);
             }
             return;
         }
