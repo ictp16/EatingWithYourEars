@@ -35,6 +35,8 @@ namespace EatingWithYourEars
             {
                 return;
             }
+            WaveGraph.isZoomed = false;
+            fullFileToolStripMenuItem.Checked = true;
             WaveGraph.WaveStream = new WaveFileReader(openWave.FileName);
             WaveGraph.fitToGraph();
             openWave.Dispose();

@@ -61,6 +61,7 @@ namespace EatingWithYourEars
 
         // for scrolling:
         private int drawPosition = 0;
+        private int constSampleCount = 0;
 
         /// <summary>
         /// Graphing:
@@ -197,14 +198,11 @@ namespace EatingWithYourEars
             switch (direction)
             {
                 default:
-                case 0: // scrolling to the right
-                   // Console.Write(drawPosition);
-                   // Console.WriteLine("\t" + waveStream.Length);
-
-                    if (drawPosition > waveStream.Length - 151)
+                case 0: 
+                    
+                    if (drawPosition + amount > constSampleCount - (rightOffset - leftOffset - 2))
                     {
-                        drawPosition = (int)waveStream.Length - 150;
-                        Console.WriteLine("TESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSST");
+                        drawPosition = constSampleCount - (rightOffset - leftOffset - 2);
                         break;
                     }
                     drawPosition += amount;
@@ -256,6 +254,7 @@ namespace EatingWithYourEars
             AvgChewCount = 0;
             highestVal = 0;
             lowestVal = 0;
+            constSampleCount = 0;
 
             //read the the audio data:
             readThroughData();
@@ -283,6 +282,10 @@ namespace EatingWithYourEars
             int sampleCount = 0;
             if (waveStream != null)
             {
+                if (!isZoomed)
+                {
+                    drawPosition = 0;
+                }
                 waveStream.Position = 0;
                 int bytesRead;
                 byte[] waveData = new byte[samplesPerPixel * bytesPerSample];
@@ -378,31 +381,35 @@ namespace EatingWithYourEars
 
             double sampleToSeconds = 44100.00 / samplesPerPixel;
             double fullTime = sampleCount / sampleToSeconds;
-
+            double scrollAddition = 0;
+            if (isZoomed)
+            {
+                scrollAddition = drawPosition / sampleToSeconds;
+            }
             length = rightOffset - leftOffset;
 
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset + (length * 0.1f), bottomOffset), new PointF(leftOffset + (length * 0.1f), bottomOffset + 10));
-            e.Graphics.DrawString((fullTime * 0.1).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.1f), bottomOffset + 20));
+            e.Graphics.DrawString(( (fullTime * 0.1) + scrollAddition).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.1f), bottomOffset + 20));
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset + (length * 0.2f), bottomOffset), new PointF(leftOffset + (length * 0.2f), bottomOffset + 10));
-            e.Graphics.DrawString((fullTime * 0.2).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.2f), bottomOffset + 20));
+            e.Graphics.DrawString(((fullTime * 0.2) + scrollAddition).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.2f), bottomOffset + 20));
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset + (length * 0.3f), bottomOffset), new PointF(leftOffset + (length * 0.3f), bottomOffset + 10));
-            e.Graphics.DrawString((fullTime * 0.3).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.3f), bottomOffset + 20));
+            e.Graphics.DrawString(((fullTime * 0.3) + scrollAddition).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.3f), bottomOffset + 20));
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset + (length * 0.4f), bottomOffset), new PointF(leftOffset + (length * 0.4f), bottomOffset + 10));
-            e.Graphics.DrawString((fullTime * 0.4).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.4f), bottomOffset + 20));
+            e.Graphics.DrawString(((fullTime * 0.4) + scrollAddition).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.4f), bottomOffset + 20));
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset + (length * 0.5f), bottomOffset), new PointF(leftOffset + (length * 0.5f), bottomOffset + 10));
-            e.Graphics.DrawString((fullTime * 0.5).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.5f), bottomOffset + 20));
+            e.Graphics.DrawString(((fullTime * 0.5) + scrollAddition).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.5f), bottomOffset + 20));
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset + (length * 0.6f), bottomOffset), new PointF(leftOffset + (length * 0.6f), bottomOffset + 10));
-            e.Graphics.DrawString((fullTime * 0.6).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.6f), bottomOffset + 20));
+            e.Graphics.DrawString(((fullTime * 0.6) + scrollAddition).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.6f), bottomOffset + 20));
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset + (length * 0.7f), bottomOffset), new PointF(leftOffset + (length * 0.7f), bottomOffset + 10));
-            e.Graphics.DrawString((fullTime * 0.7).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.7f), bottomOffset + 20));
+            e.Graphics.DrawString(((fullTime * 0.7) + scrollAddition).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.7f), bottomOffset + 20));
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset + (length * 0.8f), bottomOffset), new PointF(leftOffset + (length * 0.8f), bottomOffset + 10));
-            e.Graphics.DrawString((fullTime * 0.8).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.8f), bottomOffset + 20));
+            e.Graphics.DrawString(((fullTime * 0.8) + scrollAddition).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.8f), bottomOffset + 20));
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset + (length * 0.9f), bottomOffset), new PointF(leftOffset + (length * 0.9f), bottomOffset + 10));
-            e.Graphics.DrawString((fullTime * 0.9).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.9f), bottomOffset + 20));
+            e.Graphics.DrawString(((fullTime * 0.9) + scrollAddition).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 0.9f), bottomOffset + 20));
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset + (length * 1.0f), bottomOffset), new PointF(leftOffset + (length * 1.0f), bottomOffset + 10));
-            e.Graphics.DrawString(fullTime.ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 1.0f), bottomOffset + 20));
+            e.Graphics.DrawString( (fullTime + scrollAddition).ToString("0.00"), f, b, new PointF(leftOffset - 20 + (length * 1.0f), bottomOffset + 20));
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset, bottomOffset), new PointF(leftOffset, bottomOffset + 10));
-            e.Graphics.DrawString(("0.00").ToString(), f, b, new PointF(leftOffset - 20, bottomOffset + 20));
+            e.Graphics.DrawString(((fullTime * 0.0) + scrollAddition).ToString("0.00"), f, b, new PointF(leftOffset - 20, bottomOffset + 20));
 
             //plotting chew threshhold:
             if (lowVariableForLiam != 0 && highVariableForLiam != 0 && largestAmpValue != 0)
@@ -715,6 +722,7 @@ namespace EatingWithYourEars
                     {
                         highestVal = high;
                     }
+                    constSampleCount++;
 
                 }
                 DetectBite(AllData);
