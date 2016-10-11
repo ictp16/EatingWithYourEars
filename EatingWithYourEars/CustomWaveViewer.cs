@@ -265,7 +265,18 @@ namespace EatingWithYourEars
             Brush b = new SolidBrush(Color.Red);
             //e.Graphics.DrawString("Samples Per Pixel (Visual): " + samplesPerPixel.ToString(), f, b, new Point(0, 10));
             e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "   \tAmount of Bites: " + numOfBites.ToString() + "\t AllDataAvg: " + AvgBiteCount.ToString() + " " + AvgChewCount.ToString(), f, b, new Point(0, this.Height - 20));
-            
+
+            // work out if the lowest or the highest value is the largest amplitude value for the file:
+            int largestAmpValue = 0;
+            if ((lowestVal * -1) < highestVal)
+            {
+                largestAmpValue = highestVal;
+            }
+            else
+            {
+                largestAmpValue = lowestVal * -1;
+            }
+
             //drawable wave stream:
             int sampleCount = 0;
             if (waveStream != null)
@@ -288,9 +299,18 @@ namespace EatingWithYourEars
                         if (sample < low) low = sample;
                         if (sample > high) high = sample;
                     }
+                    // legacy drawing method:
+                    /*
                     float lowPercent = ((((float)low) - short.MinValue) / ushort.MaxValue);
                     float highPercent = ((((float)high) - short.MinValue) / ushort.MaxValue);
                     e.Graphics.DrawLine(Pens.Black, x, ((this.Height - 130) * lowPercent) + 30, x, ((this.Height - 130) * highPercent) + 30 );
+                    */
+
+                    float highPercent = (float)topOffset + ( (1.0f - ((float)high / (float)largestAmpValue)) * ( (bottomOffset - topOffset) / 2.0f));
+                    float lowPercent = (topOffset + ((bottomOffset - topOffset) / 2.0f)) - ( ((float)low / (float)largestAmpValue) * ( (bottomOffset - topOffset) / 2.0f) );
+                    //MessageBox.Show("High: " + highPercent3);
+                    e.Graphics.DrawLine(Pens.Black, x, highPercent, x, lowPercent);
+
                     sampleCount++;
                    
                 }
@@ -308,16 +328,7 @@ namespace EatingWithYourEars
             //draw Amplitude values:
             int length = bottomOffset - topOffset;
 
-            // work out if the lowest or the highest value is the largest amplitude value for the file:
-            int largestAmpValue = 0;
-            if ( (lowestVal * -1) < highestVal)
-            {
-                largestAmpValue = highestVal;
-            }
-            else
-            {
-                largestAmpValue = lowestVal * -1;
-            }
+           
 
             //zero:
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.5f)), new PointF(leftOffset, topOffset + (length * 0.5f)));
@@ -577,7 +588,7 @@ namespace EatingWithYourEars
                 }
             }
             int PeakAvg = (PeakSum / counter);
-            MessageBox.Show("Peaksum:"+PeakSum.ToString() + "    avg: " + avg.ToString() + "    PeakAvg: " + PeakAvg.ToString() + "    counter: " + counter.ToString()+ "     range:" + range.ToString());
+            //MessageBox.Show("Peaksum:"+PeakSum.ToString() + "    avg: " + avg.ToString() + "    PeakAvg: " + PeakAvg.ToString() + "    counter: " + counter.ToString()+ "     range:" + range.ToString());
 
             //apple: 12 //carrot: 8 //cashews: 18 //dried prumes: 6
 
