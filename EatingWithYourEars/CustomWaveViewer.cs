@@ -32,9 +32,9 @@ namespace EatingWithYourEars
         private int numOfChews2 = 0;
 
         //for DetectBite(short highestChewValue)
-        private bool detectingChew3 = false;
+        
         private int numOfBites = 0;
-        private short globalHighest3 = 0;
+       
 
         //For DataAllAvg no touchies
         private int AvgBiteCount = 0;
@@ -619,7 +619,7 @@ namespace EatingWithYourEars
             List<int> xDrawData = new List<int>();
             int largest = int.MinValue;
             int second = int.MinValue;
-            bool detectingChew = false;
+            bool detectingBite = false;
             int highestValue = 0;
 
             foreach (int j in data)
@@ -677,18 +677,18 @@ namespace EatingWithYourEars
 
                     if (data[i] > highestValue)
                     {
-                        globalHighest3 = data[i];
-                        detectingChew = true;
+                        highestValue = data[i];
+                        detectingBite = true;
                     }
                     else if (data[i] < highestValue)
                     {
-                        if (detectingChew)
+                        if (detectingBite)
                         {
                             if (data[i] > PeakAvg)
                             {
                                 numOfBites++;
                                 xDrawData.Add(i);
-                                detectingChew = false;
+                                detectingBite = false;
                             }
                         }
                         else
@@ -709,22 +709,22 @@ namespace EatingWithYourEars
                     if (data[i] > highestValue)
                     {
                         highestValue = data[i];
-                        detectingChew = true;
+                        detectingBite = true;
                     }
                     else if (data[i] < highestValue)
                     {
-                        if (detectingChew)
+
+                        if (data[i] > avg * 7.5)
                         {
-                            if (data[i] > avg * 7.5)
+                            if (data[i] - data[i + 1] < highestValue * 0.28)
+                            {
+                                detectingBite = false;
+                            }
+                            else if (data[i] - data[i + 1] > highestValue * 0.3)
                             {
                                 numOfBites++;
-                                xDrawData.Add(i);
-                                detectingChew = false;
+                                detectingBite = false;
                             }
-                        }
-                        else
-                        {
-                            highestValue = data[i];
                         }
 
                     }
@@ -787,6 +787,7 @@ namespace EatingWithYourEars
                 detectChew2(AllData);
                 AllDataAvg(AllData);
                 DetectBite(AllData);
+
             }
         }
 
