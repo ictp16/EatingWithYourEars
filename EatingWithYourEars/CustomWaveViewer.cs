@@ -710,13 +710,14 @@ namespace EatingWithYourEars
                     else if (data[i] < highestValue)
                     {
 
-                        if (data[i] > avg * 7.5)
+                        if (data[i] > PeakAvg*0.4 /* avg * 7.5*/)
                         {
-                            if (data[i] - data[i + 1] < highestValue * 0.28)
+                            if (data[i] - data[i + 1] < highestValue * 0.36)
                             {
                                 detectingBite = false;
+                                
                             }
-                            else if (data[i] - data[i + 1] > highestValue * 0.3)
+                            else if (data[i] - data[i + 1] > highestValue * 0.4)
                             {
                                 numOfBites++;
                                 detectingBite = false;
