@@ -278,7 +278,7 @@ namespace EatingWithYourEars
             e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString(), f, chewingMethodBrush1, 0, this.Height - 40);
             e.Graphics.DrawString("Amount of Chews (Alternate 2nd Method): " + numOfChews2.ToString(), f, chewingMethodBrush2, 0, this.Height - 20);
             e.Graphics.DrawString("Amount of Bites (third method): " + numOfBites.ToString(), f, biteMethodBrush1, 350, this.Height - 20);
-            e.Graphics.DrawString("Amount of Chews (fourth mehod): " + AvgChewCount.ToString(), f, chewingMethodBrush3, 850, this.Height - 40);
+            e.Graphics.DrawString("Amount of Chews (third method): " + AvgChewCount.ToString(), f, chewingMethodBrush3, 350, this.Height - 40);
             e.Graphics.DrawString("Amount of Bites (fourth method): " + AvgBiteCount.ToString(), f, biteMethodBrush2, 850, this.Height - 20); 
 
             // work out if the lowest or the highest value is the largest amplitude value for the file:
