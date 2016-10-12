@@ -84,6 +84,11 @@ namespace EatingWithYourEars
         public bool showTrackBar = false;
         public volatile float trackBarX = 0;
 
+        //Drawing POI's:
+        private List<List<int>> chewingAnalysisLists = new List<List<int>>(); // A list containing lists of x co-ords for the various analysis methods.
+        private Brush chewingMethod1 = null, chewingMethod2 = null, biteMethod1 = null, chewingMethod3 = null, biteMethod2 = null;
+        private int radius = 5; // how big the dots will appear.
+
 
         // THESE ARE THE LEGACY VARIABLES:
         /// <summary> 
@@ -166,7 +171,7 @@ namespace EatingWithYourEars
             }
             int samples = (int)(waveStream.Length / bytesPerSample);
             startPosition = 0;
-            samplesPerPixel = samples / (this.Width - 50 - 101);
+            samplesPerPixel = samples / (rightOffset - leftOffset);
         }
 
         protected override void OnResize(EventArgs e)
@@ -386,9 +391,8 @@ namespace EatingWithYourEars
 
 
             // Drawing time values:
-
-            double sampleToSeconds = 44100.00 / samplesPerPixel;
-            double fullTime = sampleCount / sampleToSeconds;
+            double sampleToSeconds = 44100.00 / (double)samplesPerPixel;
+            double fullTime = (double)sampleCount / sampleToSeconds;
             double scrollAddition = 0;
             if (isZoomed)
             {
@@ -447,6 +451,8 @@ namespace EatingWithYourEars
                 }
             }
 
+            //e.Graphics.DrawEllipse(Pens.Orange, new Rectangle(0, 0, 100, 100));
+            e.Graphics.FillEllipse(new SolidBrush(Color.Orange), new Rectangle(0, 0, 10, 10));
             // Plotting Chew Points (Commented out until i fix it up):
              
             //float divisor = samplesPerPixel / constSamplesPerPixel;
