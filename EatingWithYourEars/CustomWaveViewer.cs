@@ -719,6 +719,7 @@ namespace EatingWithYourEars
                             }
                             else if (data[i] - data[i + 1] > highestValue * 0.4)
                             {
+                                xDrawData.Add(i);
                                 numOfBites++;
                                 detectingBite = false;
                             }
