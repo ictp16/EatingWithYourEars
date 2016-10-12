@@ -86,7 +86,7 @@ namespace EatingWithYourEars
 
         //Drawing POI's:
         private List<List<int>> chewingAnalysisLists = new List<List<int>>(); // A list containing lists of x co-ords for the various analysis methods.
-        private Brush chewingMethod1 = null, chewingMethod2 = null, biteMethod1 = null, chewingMethod3 = null, biteMethod2 = null;
+        private Brush chewingMethodBrush1 = null, chewingMethodBrush2 = null, biteMethodBrush1 = null, chewingMethodBrush3 = null, biteMethodBrush2 = null;
         private int radius = 5; // how big the dots will appear.
 
 
@@ -108,7 +108,11 @@ namespace EatingWithYourEars
             InitializeComponent();
             this.DoubleBuffered = true;
 
-            
+            chewingMethodBrush1 = new SolidBrush(Color.DarkOrange);
+            chewingMethodBrush2 = new SolidBrush(Color.Red);
+            chewingMethodBrush3 = new SolidBrush(Color.DarkSeaGreen);
+            biteMethodBrush1 = new SolidBrush(Color.Goldenrod);
+            biteMethodBrush2 = new SolidBrush(Color.Fuchsia);
 
         }
 
@@ -273,7 +277,11 @@ namespace EatingWithYourEars
             Font f = new Font(FontFamily.GenericSansSerif, 12);
             Brush b = new SolidBrush(Color.Red);
             //e.Graphics.DrawString("Samples Per Pixel (Visual): " + samplesPerPixel.ToString(), f, b, new Point(0, 10));
-            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString() + "\tAmount of Chews (2): " + numOfChews2.ToString() + "   \tAmount of Bites: " + numOfBites.ToString() + "\t AllDataAvg: " + AvgBiteCount.ToString() + " " + AvgChewCount.ToString(), f, b, new Point(0, this.Height - 20));
+            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString(), f, chewingMethodBrush1, 0, this.Height - 20);
+            e.Graphics.DrawString("Amount of Chews (Alternate 2nd Method): " + numOfChews2.ToString(), f, chewingMethodBrush2, 150, this.Height - 20);
+            e.Graphics.DrawString("Amount of Bites (third method): " + numOfBites.ToString(), f, biteMethodBrush1, 500, this.Height - 20);
+            e.Graphics.DrawString("Amount of Chews (fourth mehod): " + AvgChewCount.ToString(), f, chewingMethodBrush3, 800, this.Height - 20);
+            e.Graphics.DrawString("Amount of Bites (fourth method): " + AvgBiteCount.ToString(), f, biteMethodBrush2, 1100, this.Height - 20); 
 
             // work out if the lowest or the highest value is the largest amplitude value for the file:
             float largestAmpValue = 0;
@@ -453,6 +461,9 @@ namespace EatingWithYourEars
 
             //e.Graphics.DrawEllipse(Pens.Orange, new Rectangle(0, 0, 100, 100));
             e.Graphics.FillEllipse(new SolidBrush(Color.Orange), new Rectangle(0, 0, 10, 10));
+
+
+
             // Plotting Chew Points (Commented out until i fix it up):
              
             //float divisor = samplesPerPixel / constSamplesPerPixel;
