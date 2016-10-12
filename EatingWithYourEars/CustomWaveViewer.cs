@@ -712,13 +712,15 @@ namespace EatingWithYourEars
 
                         if (data[i] > PeakAvg*0.4 /* avg * 7.5*/)
                         {
+                            
+             /*the following conditions are checked to eliminate redundant detection of bites to a certain degree*/
 
-                            if (data[i] - data[i + 1] < highestValue * 0.36)
+                            if (data[i] - data[i + 1] < highestValue * 0.36) /*refinement (to eliminate redundant detections)*/
                             {
                                 detectingBite = false;
                                 
                             }
-                            else if (data[i] - data[i + 1] > highestValue * 0.4)
+                            else if (data[i] - data[i + 1] > highestValue * 0.4) /*refinement (to eliminate redundant detections)*/
                             {
                                 xDrawData.Add(i);
                                 numOfBites++;
