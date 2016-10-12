@@ -25,9 +25,6 @@ namespace EatingWithYourEars
         //for detectChew(short highestChewValue)
         private int numOfChews = 0;
 
-        // for drawing:
-        private List<int> DrawBiteLocation = new List<int>();
-
         //for detectChew2(short highestChewValue)
         private int numOfChews2 = 0;
 
@@ -42,8 +39,7 @@ namespace EatingWithYourEars
         private int Avg = 0;
 
         //Drawing:
-        private List<int> drawableCoords2 = new List<int>();
-        private int xTemp2 = 0;
+
 
         //constant samplesPerPixel value (usid in readData):
         public int constSamplesPerPixel = 1764; //1764
@@ -277,9 +273,9 @@ namespace EatingWithYourEars
 
             e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString(), f, chewingMethodBrush1, 0, this.Height - 40);
             e.Graphics.DrawString("Amount of Chews (Alternate 2nd Method): " + numOfChews2.ToString(), f, chewingMethodBrush2, 0, this.Height - 20);
-            e.Graphics.DrawString("Amount of Bites (third method): " + numOfBites.ToString(), f, biteMethodBrush1, 350, this.Height - 20);
+            e.Graphics.DrawString("Amount of Bites (third method): " + AvgBiteCount.ToString(), f, biteMethodBrush1, 350, this.Height - 20);
             e.Graphics.DrawString("Amount of Chews (third method): " + AvgChewCount.ToString(), f, chewingMethodBrush3, 350, this.Height - 40);
-            e.Graphics.DrawString("Amount of Bites (fourth method): " + AvgBiteCount.ToString(), f, biteMethodBrush2, 850, this.Height - 20); 
+            e.Graphics.DrawString("Amount of Bites (fourth method): " + numOfBites.ToString(), f, biteMethodBrush2, 850, this.Height - 20); 
 
             // work out if the lowest or the highest value is the largest amplitude value for the file:
             float largestAmpValue = 0;
