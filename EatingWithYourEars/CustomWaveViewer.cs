@@ -688,11 +688,20 @@ namespace EatingWithYourEars
                     {
                         if (detectingChew3)
                         {
-                            if (data[i] > avg * 7.5)
-                            {
-                                numOfBites++;
-                                detectingChew3 = false;
+                            
+                              if (data[i] > avg * 7.8)
+                              {
+                                if (data[i] - data[i + 1] < globalHighest3*0.28)
+                                {
+                                    detectingChew3 = false;
+                                }
+                                else if (data[i] - data[i + 1] > globalHighest3 * 0.1)
+                                {
+                                    numOfBites++;
+                                    detectingChew3 = false;
+                                }
                             }
+                            
                         }
                         else
                         {
