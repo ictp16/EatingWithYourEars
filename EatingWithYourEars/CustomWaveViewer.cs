@@ -621,7 +621,7 @@ namespace EatingWithYourEars
             //figuring out range
             int range = 0;
             if (data.Max() > second * 1.5)
-            { range = second; }
+            { range = second-data.Min(); }
             else
             { range = data.Max() - data.Min(); }
             
@@ -639,7 +639,7 @@ namespace EatingWithYourEars
             int counter = 0;
 
             for (int i = 0; i < data.Count; i++)
-            { sum += Convert.ToInt32(data[i]);
+            { 
                 if (data[i] > range*0.3)
                 {
                     PeakSum += Convert.ToInt32(data[i]);
