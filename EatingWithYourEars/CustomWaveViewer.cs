@@ -712,6 +712,7 @@ namespace EatingWithYourEars
 
                         if (data[i] > PeakAvg*0.4 /* avg * 7.5*/)
                         {
+
                             if (data[i] - data[i + 1] < highestValue * 0.36)
                             {
                                 detectingBite = false;
