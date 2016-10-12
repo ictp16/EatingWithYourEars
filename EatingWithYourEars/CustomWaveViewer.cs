@@ -23,21 +23,13 @@ namespace EatingWithYourEars
         /// </summary>
 
         //for detectChew(short highestChewValue)
-        private int counter = 0;
-        private bool detectingChew = false;
         private int numOfChews = 0;
-        private short globalHighest = 0;
 
         // for drawing:
-        private List<int> drawableCoords = new List<int>();
-        private int xTemp = 0;
         private List<int> DrawBiteLocation = new List<int>();
 
         //for detectChew2(short highestChewValue)
-        private int counter2 = 0;
-        private bool detectingChew2 = false;
         private int numOfChews2 = 0;
-        private short globalHighest2 = 0;
 
         //for DetectBite(short highestChewValue)
         private bool detectingChew3 = false;
@@ -86,8 +78,9 @@ namespace EatingWithYourEars
 
         //Drawing POI's:
         private List<List<int>> chewingAnalysisLists = new List<List<int>>(); // A list containing lists of x co-ords for the various analysis methods.
+        private List<Brush> brushList = new List<Brush>();
         private Brush chewingMethodBrush1 = null, chewingMethodBrush2 = null, biteMethodBrush1 = null, chewingMethodBrush3 = null, biteMethodBrush2 = null;
-        private int radius = 5; // how big the dots will appear.
+        private int radius = 4; // how big the dots will appear.
 
 
         // THESE ARE THE LEGACY VARIABLES:
@@ -109,11 +102,15 @@ namespace EatingWithYourEars
             this.DoubleBuffered = true;
 
             chewingMethodBrush1 = new SolidBrush(Color.DarkOrange);
+            brushList.Add(chewingMethodBrush1);
             chewingMethodBrush2 = new SolidBrush(Color.Red);
-            chewingMethodBrush3 = new SolidBrush(Color.DarkSeaGreen);
+            brushList.Add(chewingMethodBrush2);
             biteMethodBrush1 = new SolidBrush(Color.Goldenrod);
+            brushList.Add(biteMethodBrush1);
+            chewingMethodBrush3 = new SolidBrush(Color.DarkSeaGreen);
+            brushList.Add(chewingMethodBrush3);
             biteMethodBrush2 = new SolidBrush(Color.Fuchsia);
-
+            brushList.Add(biteMethodBrush2);
         }
 
         /// <summary>
@@ -269,6 +266,7 @@ namespace EatingWithYourEars
             highestVal = 0;
             lowestVal = 0;
             constSampleCount = 0;
+            chewingAnalysisLists.Clear();
 
             //read the the audio data:
             readThroughData();
@@ -276,12 +274,12 @@ namespace EatingWithYourEars
             //display results:
             Font f = new Font(FontFamily.GenericSansSerif, 12);
             Brush b = new SolidBrush(Color.Red);
-            //e.Graphics.DrawString("Samples Per Pixel (Visual): " + samplesPerPixel.ToString(), f, b, new Point(0, 10));
-            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString(), f, chewingMethodBrush1, 0, this.Height - 20);
-            e.Graphics.DrawString("Amount of Chews (Alternate 2nd Method): " + numOfChews2.ToString(), f, chewingMethodBrush2, 150, this.Height - 20);
-            e.Graphics.DrawString("Amount of Bites (third method): " + numOfBites.ToString(), f, biteMethodBrush1, 500, this.Height - 20);
-            e.Graphics.DrawString("Amount of Chews (fourth mehod): " + AvgChewCount.ToString(), f, chewingMethodBrush3, 800, this.Height - 20);
-            e.Graphics.DrawString("Amount of Bites (fourth method): " + AvgBiteCount.ToString(), f, biteMethodBrush2, 1100, this.Height - 20); 
+
+            e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString(), f, chewingMethodBrush1, 0, this.Height - 40);
+            e.Graphics.DrawString("Amount of Chews (Alternate 2nd Method): " + numOfChews2.ToString(), f, chewingMethodBrush2, 0, this.Height - 20);
+            e.Graphics.DrawString("Amount of Bites (third method): " + numOfBites.ToString(), f, biteMethodBrush1, 350, this.Height - 20);
+            e.Graphics.DrawString("Amount of Chews (fourth mehod): " + AvgChewCount.ToString(), f, chewingMethodBrush3, 850, this.Height - 40);
+            e.Graphics.DrawString("Amount of Bites (fourth method): " + AvgBiteCount.ToString(), f, biteMethodBrush2, 850, this.Height - 20); 
 
             // work out if the lowest or the highest value is the largest amplitude value for the file:
             float largestAmpValue = 0;
@@ -322,6 +320,7 @@ namespace EatingWithYourEars
                         if (sample < low) low = sample;
                         if (sample > high) high = sample;
                     }
+                    
                     // legacy drawing method:
                     /*
                     float lowPercent = ((((float)low) - short.MinValue) / ushort.MaxValue);
@@ -331,9 +330,7 @@ namespace EatingWithYourEars
 
                     float highPercent = (float)topOffset + ( (1.0f - ((float)high / (float)largestAmpValue)) * ( (bottomOffset - topOffset) / 2.0f));
                     float lowPercent = (topOffset + ((bottomOffset - topOffset) / 2.0f)) - ( ((float)low / (float)largestAmpValue) * ( (bottomOffset - topOffset) / 2.0f) );
-                    //MessageBox.Show("High: " + highPercent3);
                     e.Graphics.DrawLine(Pens.Black, x, highPercent, x, lowPercent);
-
                     sampleCount++;
                    
                 }
@@ -345,24 +342,23 @@ namespace EatingWithYourEars
             e.Graphics.DrawLine(Pens.Black, new Point(leftOffset, topOffset), new Point(leftOffset, bottomOffset));
             StringFormat drawFormat = new StringFormat(StringFormatFlags.DirectionVertical);
             e.Graphics.DrawString("Amplidtude", f, b, new Point(leftOffset - 130 ,(bottomOffset / 2) - 30), drawFormat);
+            
             //horizontal:
             e.Graphics.DrawLine(Pens.Black, new Point(leftOffset, bottomOffset), new Point(rightOffset, bottomOffset));
             e.Graphics.DrawString("Time (Seconds)", f, b, new Point(leftOffset + ((rightOffset - leftOffset) / 2) - 100, bottomOffset + 50));
 
 
-            // resizing th y scale depending if zommed in or not:
+            // resizing the y scale depending if zommed in or not:
             if (isZoomed)
             {
                 int samples = (int)(waveStream.Length / bytesPerSample);
                 float screenSamples = samples / (this.Width - 50.0f - 101.0f);
-                //MessageBox.Show("Test " + ((float)constSamplesPerPixel / (float)samplesPerPixel).ToString());
                 largestAmpValue = largestAmpValue * ((float)constSamplesPerPixel / screenSamples);
             }
 
             //draw Amplitude values:
             int length = bottomOffset - topOffset;
 
-           
 
             //zero:
             e.Graphics.DrawLine(Pens.Black, new PointF(leftOffset - 10, topOffset + (length * 0.5f)), new PointF(leftOffset, topOffset + (length * 0.5f)));
@@ -397,11 +393,11 @@ namespace EatingWithYourEars
             e.Graphics.DrawString("-" + (largestAmpValue).ToString("0.00"), f, b, new PointF(leftOffset - 90, bottomOffset - 10));
 
 
-
             // Drawing time values:
             double sampleToSeconds = 44100.00 / (double)samplesPerPixel;
             double fullTime = (double)sampleCount / sampleToSeconds;
             double scrollAddition = 0;
+
             if (isZoomed)
             {
                 scrollAddition = drawPosition / sampleToSeconds;
@@ -449,6 +445,7 @@ namespace EatingWithYourEars
                 {
                     e.Graphics.DrawLine(Pens.Blue, new PointF((float)leftOffset + (((float)rightOffset - (float)leftOffset) * trackBarX), (float)topOffset), new PointF((float)leftOffset + (((float)rightOffset - (float)leftOffset) * trackBarX), (float)topOffset + (((float)bottomOffset - (float)topOffset) / 2.0f)));
                 }
+
                 else
                 {
                     // state 1 (move to halfway on the graph):
@@ -459,105 +456,121 @@ namespace EatingWithYourEars
                 }
             }
 
-            //e.Graphics.DrawEllipse(Pens.Orange, new Rectangle(0, 0, 100, 100));
-            e.Graphics.FillEllipse(new SolidBrush(Color.Orange), new Rectangle(0, 0, 10, 10));
-
 
 
             // Plotting Chew Points (Commented out until i fix it up):
-             
-            //float divisor = samplesPerPixel / constSamplesPerPixel;
+            float multiplier = (float)constSamplesPerPixel / (float)samplesPerPixel;
 
-            /*for (int i = 0; i < drawableCoords.Count; i++)
+            for (int i = 0; i < chewingAnalysisLists.Count; i++)
             {
-                float trueXCoord = (drawableCoords[i] / divisor);
-                e.Graphics.DrawLine(Pens.Red, 100 + trueXCoord, this.Height / 2 - 20, 100 + trueXCoord, this.Height / 2 - 30);
-            }
-
-            for (int i = 0; i < drawableCoords2.Count; i++)
-            {
-                float trueXCoord = drawableCoords2[i] / divisor;
-                if (trueXCoord > this.Width - 50) ;
-                e.Graphics.DrawLine(Pens.Green, 100 + trueXCoord, this.Height / 2 - 50 , 100 + trueXCoord, this.Height / 2 - 60);
-            }
-            
-
-            for (int i = 0; i < DrawBiteLocation.Count; i++)
-            {
-                float trueXCoord = DrawBiteLocation[i] / divisor;
-                //if (trueXCoord > this.Width - 50);
-                e.Graphics.DrawLine(Pens.Green, 100 + trueXCoord, this.Height / 2 - 100, 100 + trueXCoord, this.Height / 2 - 200);
-            }
-            */
-            base.OnPaint(e);
-        }
-
-        private void detectChew(short highestSampleValue, int xValue)
-        {
-            if (highestSampleValue > globalHighest)
-            {
-                    detectingChew = true;
-                    globalHighest = highestSampleValue;
-                    counter = 0;
-                    xTemp = xValue + 1;
-            }
-            else if (highestSampleValue < globalHighest)
-            {
-                if (detectingChew)
+                for (int j = 0; j < chewingAnalysisLists[i].Count; j++)
                 {
-                    counter++;
-                    if (counter == 8)
+                    if (isZoomed)
                     {
-                        counter = 0;
-                        numOfChews++;
-                        detectingChew = false;
-                        drawableCoords.Add(xTemp);
-                        return;
-                    }
-                }
-                else
-                {
-                    globalHighest = highestSampleValue;
-                }
-            }
-            return;
-        }
-
-        private void detectChew2(short highestSampleValue, int xValue)
-        {
-            if (highestSampleValue > globalHighest2)
-            {
-                globalHighest2 = highestSampleValue;
-                detectingChew2 = true;
-                counter2 = 1;
-                xTemp2 = xValue;
-            }
-            else if (highestSampleValue < globalHighest2)
-            {
-                if (detectingChew2)
-                {
-                    if (globalHighest2 - highestSampleValue > 550)
-                    {
-                        numOfChews2++;
-                        detectingChew2 = false;
-                        drawableCoords2.Add(xTemp2);
-                        return;
+                        if (chewingAnalysisLists[i][j] < drawPosition)
+                        {
+                            continue;
+                        }
+                        if (chewingAnalysisLists[i][j] > drawPosition + rightOffset - leftOffset)
+                        {
+                            break;
+                        }
+                        e.Graphics.FillEllipse(brushList[i], new Rectangle(leftOffset + chewingAnalysisLists[i][j] - drawPosition - radius, topOffset - radius + (i * 10), radius * 2, radius * 2));
                     }
                     else
                     {
-                        counter2++;
+                        e.Graphics.FillEllipse(brushList[i], new RectangleF((float)leftOffset + ((float)chewingAnalysisLists[i][j] * multiplier) - (radius / 2.0f), (float)topOffset - (radius / 2.0f) + (i * 5), radius, radius));
                     }
                 }
-                else
+            }
+
+            //float divisor = samplesPerPixel / constSamplesPerPixel;
+
+            base.OnPaint(e);
+        }
+
+        private void detectChew(List<short> allData)
+        {
+            List<int> xDrawData = new List<int>();
+
+            int highestValue = 0;
+            int highestValueX = 0;
+            bool detectingChew = false;
+            int counter = 0;
+
+            for (int i = 0; i < allData.Count; i++)
+            {
+                if (allData[i] > highestValue)
                 {
-                    globalHighest2 = highestSampleValue;
+                    detectingChew = true;
+                    highestValue = allData[i];
+                    highestValueX = i;
+                    counter = 0;
+                }
+
+                else if (allData[i] < highestValue)
+                {
+                    if (detectingChew)
+                    {
+                        counter++;
+                        if (counter == 8)
+                        {
+                            counter = 0;
+                            numOfChews++;
+                            detectingChew = false;
+                            xDrawData.Add(highestValueX);
+                        }
+                    }
+                    else
+                    {
+                        highestValue = allData[i];
+                    }
                 }
             }
+            chewingAnalysisLists.Add(xDrawData);
+            return;
+        }
+
+        private void detectChew2(List<short> allData)
+        {
+            List<int> xDrawData = new List<int>();
+            int highestValue = 0;
+            int highestValueX = 0;
+            bool detectingChew = false;
+
+            for (int i = 0; i < allData.Count; i++)
+            {
+                if (allData[i] > highestValue)
+                {
+                    highestValue = allData[i];
+                    highestValueX = i;
+                    detectingChew = true;
+                }
+                else if (allData[i] < highestValue)
+                {
+                    if (detectingChew)
+                    {
+                        if (highestValue - allData[i] > 550)
+                        {
+                            numOfChews2++;
+                            detectingChew = false;
+                            xDrawData.Add(highestValueX);
+                        }
+                    }
+                    else
+                    {
+                        highestValue = allData[i];
+                    }
+                }
+            }
+            chewingAnalysisLists.Add(xDrawData);
             return;
         }
 
         private void AllDataAvg(List<short> data)
         {
+            List<int> xDrawDataBite = new List<int>();
+            List<int> xDrawDataChew = new List<int>();
             int sum = 0;
             int high = data[0];
             int low = data[0];
@@ -573,14 +586,9 @@ namespace EatingWithYourEars
                 {
                     low = data[i];
                 }
-                //Console.WriteLine(high + " " + low);
-                //Console.Out.WriteLine(data[i]);
             }
             int avg = (sum / data.Count);
             Avg = avg;
-            //MessageBox.Show("I was going to clean my room, but then I got high " + high.ToString());
-            //For Checking the avg Amp for the local highs
-            //Console.WriteLine(avg);
 
             for(int i = 0; i < data.Count; i++)
             {
@@ -589,13 +597,16 @@ namespace EatingWithYourEars
                     highVariableForLiam = high;
                     lowVariableForLiam = avg;
                     AvgBiteCount++;
-                    DrawBiteLocation.Add(i);
+                    xDrawDataBite.Add(i);
                 }
                 if((data[i] < avg) && (data[i] > (avg / 1.25)))
                 {
                     AvgChewCount++;
+                    xDrawDataChew.Add(i);
                 }
             }
+            chewingAnalysisLists.Add(xDrawDataBite);
+            chewingAnalysisLists.Add(xDrawDataChew);
             
         }
 
@@ -603,10 +614,14 @@ namespace EatingWithYourEars
 
 
         private void DetectBite(List<short> data)
-        { 
+        {
             //figuring out second largest array value
+            List<int> xDrawData = new List<int>();
             int largest = int.MinValue;
             int second = int.MinValue;
+            bool detectingChew = false;
+            int highestValue = 0;
+
             foreach (int j in data)
             {
                 if (j > largest)
@@ -660,24 +675,25 @@ namespace EatingWithYourEars
                 {
 
 
-                    if (data[i] > globalHighest3)
+                    if (data[i] > highestValue)
                     {
                         globalHighest3 = data[i];
-                        detectingChew3 = true;
+                        detectingChew = true;
                     }
-                    else if (data[i] < globalHighest3)
+                    else if (data[i] < highestValue)
                     {
-                        if (detectingChew3)
+                        if (detectingChew)
                         {
                             if (data[i] > PeakAvg)
                             {
                                 numOfBites++;
-                                detectingChew3 = false;
+                                xDrawData.Add(i);
+                                detectingChew = false;
                             }
                         }
                         else
                         {
-                            globalHighest3 = data[i];
+                            highestValue = data[i];
                         }
 
                     }
@@ -690,24 +706,25 @@ namespace EatingWithYourEars
                 for (int i = 0; i < data.Count; i++)
                 {
 
-                    if (data[i] > globalHighest3)
+                    if (data[i] > highestValue)
                     {
-                        globalHighest3 = data[i];
-                        detectingChew3 = true;
+                        highestValue = data[i];
+                        detectingChew = true;
                     }
-                    else if (data[i] < globalHighest3)
+                    else if (data[i] < highestValue)
                     {
-                        if (detectingChew3)
+                        if (detectingChew)
                         {
                             if (data[i] > avg * 7.5)
                             {
                                 numOfBites++;
-                                detectingChew3 = false;
+                                xDrawData.Add(i);
+                                detectingChew = false;
                             }
                         }
                         else
                         {
-                            globalHighest3 = data[i];
+                            highestValue = data[i];
                         }
 
                     }
@@ -715,7 +732,7 @@ namespace EatingWithYourEars
 
             }
 
-
+            chewingAnalysisLists.Add(xDrawData);
 
         }
 
@@ -746,8 +763,7 @@ namespace EatingWithYourEars
                         if (sample > high) high = sample;
                     }
 
-                    detectChew(high, x);
-                    detectChew2(high, x);
+                   
                     
                     AllData.Add(high);
 
@@ -767,8 +783,10 @@ namespace EatingWithYourEars
                     constSampleCount++;
 
                 }
-                DetectBite(AllData);
+                detectChew(AllData);
+                detectChew2(AllData);
                 AllDataAvg(AllData);
+                DetectBite(AllData);
             }
         }
 
