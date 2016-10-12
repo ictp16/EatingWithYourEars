@@ -245,7 +245,7 @@ namespace EatingWithYourEars
         {
 
             //defining graph padding:
-            leftOffset = 100;
+            leftOffset = 150;
             rightOffset = this.Width - 50;
             topOffset = 30;
             bottomOffset = this.Height - 100;
@@ -295,7 +295,7 @@ namespace EatingWithYourEars
                 byte[] waveData = new byte[samplesPerPixel * bytesPerSample];
                 waveStream.Position = startPosition + (drawPosition * bytesPerSample * samplesPerPixel);
                 
-                for (float x = 101; x < this.Width - 50; x += 1)
+                for (float x = leftOffset + 1; x < rightOffset; x += 1)
                 {
                     short low = 0;
                     short high = 0;
@@ -329,8 +329,11 @@ namespace EatingWithYourEars
             // drawing the graph lines:
             //Veritcal:
             e.Graphics.DrawLine(Pens.Black, new Point(leftOffset, topOffset), new Point(leftOffset, bottomOffset));
+            StringFormat drawFormat = new StringFormat(StringFormatFlags.DirectionVertical);
+            e.Graphics.DrawString("Amplidtude", f, b, new Point(leftOffset - 130 ,(bottomOffset / 2) - 30), drawFormat);
             //horizontal:
             e.Graphics.DrawLine(Pens.Black, new Point(leftOffset, bottomOffset), new Point(rightOffset, bottomOffset));
+            e.Graphics.DrawString("Time (Seconds)", f, b, new Point(leftOffset + ((rightOffset - leftOffset) / 2) - 100, bottomOffset + 50));
 
 
             // resizing th y scale depending if zommed in or not:
