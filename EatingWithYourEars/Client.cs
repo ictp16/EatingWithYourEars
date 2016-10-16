@@ -259,5 +259,93 @@ namespace EatingWithYourEars
                 outputChannel.Volume = ((float)VolumeTrackBar.Value / 10.0f);
             }
         }
+
+        private void ChewMethod1CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChewMethod1CheckBox.Checked)
+            {
+                hideData(0, false);
+            }
+            else
+            {
+                hideData(0, true);
+            }
+        }
+
+        private void ChewMethod2CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChewMethod2CheckBox.Checked)
+            {
+                hideData(1, false);
+            }
+            else
+            {
+                hideData(1, true);
+            }
+        }
+
+        private void ChewMethod3CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ChewMethod3CheckBox.Checked)
+            {
+                hideData(2, false);
+            }
+            else
+            {
+                hideData(2, true);
+            }
+        }
+
+        private void BiteMethod3CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (BiteMethod3CheckBox.Checked)
+            {
+                hideData(3, false);
+            }
+            else
+            {
+                hideData(3, true);
+            }
+        }
+
+        private void BiteMethod4CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (BiteMethod4CheckBox.Checked)
+            {
+                hideData(4, false);
+            }
+            else
+            {
+                hideData(4, true);
+            }
+        }
+
+
+
+        private void hideData(int value, bool hide)
+        {
+            if (WaveGraph.WaveStream != null)
+            {
+                if (hide)
+                {
+                    WaveGraph.dataToHide.Add(value);
+                }
+                else
+                {
+                    try
+                    {
+                        WaveGraph.dataToHide.Remove(value);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error toggling data: \n" + e);
+                    }
+                }
+                WaveGraph.dataToHide.Sort();
+                WaveGraph.Invalidate();
+            }
+        }
+
+
     }
 }

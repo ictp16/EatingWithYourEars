@@ -78,6 +78,8 @@ namespace EatingWithYourEars
         private Brush chewingMethodBrush1 = null, chewingMethodBrush2 = null, biteMethodBrush1 = null, chewingMethodBrush3 = null, biteMethodBrush2 = null;
         private int radius = 4; // how big the dots will appear.
 
+        //show/hide data:
+        public List<int> dataToHide = new List<int>();
 
         // THESE ARE THE LEGACY VARIABLES:
         /// <summary> 
@@ -96,17 +98,8 @@ namespace EatingWithYourEars
             // This call is required by the Windows.Forms Form Designer.
             InitializeComponent();
             this.DoubleBuffered = true;
-
-            chewingMethodBrush1 = new SolidBrush(Color.DarkOrange);
-            brushList.Add(chewingMethodBrush1);
-            chewingMethodBrush2 = new SolidBrush(Color.Red);
-            brushList.Add(chewingMethodBrush2);
-            biteMethodBrush1 = new SolidBrush(Color.Goldenrod);
-            brushList.Add(biteMethodBrush1);
-            chewingMethodBrush3 = new SolidBrush(Color.DarkSeaGreen);
-            brushList.Add(chewingMethodBrush3);
-            biteMethodBrush2 = new SolidBrush(Color.Fuchsia);
-            brushList.Add(biteMethodBrush2);
+            resetBrushList();
+            
         }
 
         /// <summary>
@@ -225,6 +218,20 @@ namespace EatingWithYourEars
             Invalidate();
         }
 
+        private void resetBrushList()
+        {
+            chewingMethodBrush1 = new SolidBrush(Color.DarkOrange);
+            brushList.Add(chewingMethodBrush1);
+            chewingMethodBrush2 = new SolidBrush(Color.Red);
+            brushList.Add(chewingMethodBrush2);            
+            chewingMethodBrush3 = new SolidBrush(Color.DarkSeaGreen);
+            brushList.Add(chewingMethodBrush3);
+            biteMethodBrush1 = new SolidBrush(Color.Goldenrod);
+            brushList.Add(biteMethodBrush1);
+            biteMethodBrush2 = new SolidBrush(Color.Fuchsia);
+            brushList.Add(biteMethodBrush2);
+        }
+
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -263,6 +270,8 @@ namespace EatingWithYourEars
             lowestVal = 0;
             constSampleCount = 0;
             chewingAnalysisLists.Clear();
+            brushList.Clear();
+            resetBrushList();
 
             //read the the audio data:
             readThroughData();
@@ -273,8 +282,8 @@ namespace EatingWithYourEars
 
             e.Graphics.DrawString("Amount of Chews: " + numOfChews.ToString(), f, chewingMethodBrush1, 0, this.Height - 40);
             e.Graphics.DrawString("Amount of Chews (Alternate 2nd Method): " + numOfChews2.ToString(), f, chewingMethodBrush2, 0, this.Height - 20);
-            e.Graphics.DrawString("Amount of Bites (third method): " + AvgBiteCount.ToString(), f, biteMethodBrush1, 350, this.Height - 20);
-            e.Graphics.DrawString("Amount of Chews (third method): " + AvgChewCount.ToString(), f, chewingMethodBrush3, 350, this.Height - 40);
+            e.Graphics.DrawString("Amount of Bites (third method): " + AvgBiteCount.ToString(), f, biteMethodBrush1, 380, this.Height - 20);
+            e.Graphics.DrawString("Amount of Chews (third method): " + AvgChewCount.ToString(), f, chewingMethodBrush3, 380, this.Height - 40);
             e.Graphics.DrawString("Amount of Bites (fourth method): " + numOfBites.ToString(), f, biteMethodBrush2, 850, this.Height - 20); 
 
             // work out if the lowest or the highest value is the largest amplitude value for the file:
@@ -455,6 +464,13 @@ namespace EatingWithYourEars
 
 
             // Plotting Chew Points (Commented out until i fix it up):
+
+            for (int i = dataToHide.Count - 1; i > -1; i--)
+            {
+                    chewingAnalysisLists.RemoveAt(dataToHide[i]);
+                    brushList.RemoveAt(dataToHide[i]);
+            }
+
             float multiplier = (float)constSamplesPerPixel / (float)samplesPerPixel;
 
             for (int i = 0; i < chewingAnalysisLists.Count; i++)
@@ -601,9 +617,10 @@ namespace EatingWithYourEars
                     xDrawDataChew.Add(i);
                 }
             }
-            chewingAnalysisLists.Add(xDrawDataBite);
-            chewingAnalysisLists.Add(xDrawDataChew);
             
+            chewingAnalysisLists.Add(xDrawDataChew);
+            chewingAnalysisLists.Add(xDrawDataBite);
+
         }
 
 

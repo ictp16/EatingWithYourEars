@@ -38,9 +38,14 @@
             this.TrackSpeedList = new System.Windows.Forms.ComboBox();
             this.SpeedLabel = new System.Windows.Forms.Label();
             this.NameField = new System.Windows.Forms.Label();
-            this.WaveGraph = new EatingWithYourEars.CustomWaveViewer();
             this.VolumeTrackBar = new System.Windows.Forms.TrackBar();
             this.VolumeLabel = new System.Windows.Forms.Label();
+            this.ChewMethod2CheckBox = new System.Windows.Forms.CheckBox();
+            this.ChewMethod1CheckBox = new System.Windows.Forms.CheckBox();
+            this.ChewMethod3CheckBox = new System.Windows.Forms.CheckBox();
+            this.BiteMethod3CheckBox = new System.Windows.Forms.CheckBox();
+            this.BiteMethod4CheckBox = new System.Windows.Forms.CheckBox();
+            this.WaveGraph = new EatingWithYourEars.CustomWaveViewer();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeTrackBar)).BeginInit();
             this.SuspendLayout();
@@ -143,17 +148,6 @@
             this.NameField.TabIndex = 6;
             this.NameField.Text = "N.A.";
             // 
-            // WaveGraph
-            // 
-            this.WaveGraph.Dock = System.Windows.Forms.DockStyle.Top;
-            this.WaveGraph.Location = new System.Drawing.Point(0, 24);
-            this.WaveGraph.Name = "WaveGraph";
-            this.WaveGraph.SamplesPerPixel = 128;
-            this.WaveGraph.Size = new System.Drawing.Size(1491, 464);
-            this.WaveGraph.StartPosition = ((long)(0));
-            this.WaveGraph.TabIndex = 1;
-            this.WaveGraph.WaveStream = null;
-            // 
             // VolumeTrackBar
             // 
             this.VolumeTrackBar.Location = new System.Drawing.Point(642, 529);
@@ -172,11 +166,87 @@
             this.VolumeLabel.TabIndex = 8;
             this.VolumeLabel.Text = "Volume:";
             // 
+            // ChewMethod2CheckBox
+            // 
+            this.ChewMethod2CheckBox.AutoSize = true;
+            this.ChewMethod2CheckBox.Checked = true;
+            this.ChewMethod2CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChewMethod2CheckBox.Location = new System.Drawing.Point(358, 472);
+            this.ChewMethod2CheckBox.Name = "ChewMethod2CheckBox";
+            this.ChewMethod2CheckBox.Size = new System.Drawing.Size(15, 14);
+            this.ChewMethod2CheckBox.TabIndex = 9;
+            this.ChewMethod2CheckBox.UseVisualStyleBackColor = true;
+            this.ChewMethod2CheckBox.CheckedChanged += new System.EventHandler(this.ChewMethod2CheckBox_CheckedChanged);
+            // 
+            // ChewMethod1CheckBox
+            // 
+            this.ChewMethod1CheckBox.AutoSize = true;
+            this.ChewMethod1CheckBox.Checked = true;
+            this.ChewMethod1CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChewMethod1CheckBox.Location = new System.Drawing.Point(358, 452);
+            this.ChewMethod1CheckBox.Name = "ChewMethod1CheckBox";
+            this.ChewMethod1CheckBox.Size = new System.Drawing.Size(15, 14);
+            this.ChewMethod1CheckBox.TabIndex = 10;
+            this.ChewMethod1CheckBox.UseVisualStyleBackColor = true;
+            this.ChewMethod1CheckBox.CheckedChanged += new System.EventHandler(this.ChewMethod1CheckBox_CheckedChanged);
+            // 
+            // ChewMethod3CheckBox
+            // 
+            this.ChewMethod3CheckBox.AutoSize = true;
+            this.ChewMethod3CheckBox.Checked = true;
+            this.ChewMethod3CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ChewMethod3CheckBox.Location = new System.Drawing.Point(669, 452);
+            this.ChewMethod3CheckBox.Name = "ChewMethod3CheckBox";
+            this.ChewMethod3CheckBox.Size = new System.Drawing.Size(15, 14);
+            this.ChewMethod3CheckBox.TabIndex = 11;
+            this.ChewMethod3CheckBox.UseVisualStyleBackColor = true;
+            this.ChewMethod3CheckBox.CheckedChanged += new System.EventHandler(this.ChewMethod3CheckBox_CheckedChanged);
+            // 
+            // BiteMethod3CheckBox
+            // 
+            this.BiteMethod3CheckBox.AutoSize = true;
+            this.BiteMethod3CheckBox.Checked = true;
+            this.BiteMethod3CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.BiteMethod3CheckBox.Location = new System.Drawing.Point(669, 472);
+            this.BiteMethod3CheckBox.Name = "BiteMethod3CheckBox";
+            this.BiteMethod3CheckBox.Size = new System.Drawing.Size(15, 14);
+            this.BiteMethod3CheckBox.TabIndex = 12;
+            this.BiteMethod3CheckBox.UseVisualStyleBackColor = true;
+            this.BiteMethod3CheckBox.CheckedChanged += new System.EventHandler(this.BiteMethod3CheckBox_CheckedChanged);
+            // 
+            // BiteMethod4CheckBox
+            // 
+            this.BiteMethod4CheckBox.AutoSize = true;
+            this.BiteMethod4CheckBox.Checked = true;
+            this.BiteMethod4CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.BiteMethod4CheckBox.Location = new System.Drawing.Point(1161, 472);
+            this.BiteMethod4CheckBox.Name = "BiteMethod4CheckBox";
+            this.BiteMethod4CheckBox.Size = new System.Drawing.Size(15, 14);
+            this.BiteMethod4CheckBox.TabIndex = 13;
+            this.BiteMethod4CheckBox.UseVisualStyleBackColor = true;
+            this.BiteMethod4CheckBox.CheckedChanged += new System.EventHandler(this.BiteMethod4CheckBox_CheckedChanged);
+            // 
+            // WaveGraph
+            // 
+            this.WaveGraph.Dock = System.Windows.Forms.DockStyle.Top;
+            this.WaveGraph.Location = new System.Drawing.Point(0, 24);
+            this.WaveGraph.Name = "WaveGraph";
+            this.WaveGraph.SamplesPerPixel = 128;
+            this.WaveGraph.Size = new System.Drawing.Size(1491, 464);
+            this.WaveGraph.StartPosition = ((long)(0));
+            this.WaveGraph.TabIndex = 1;
+            this.WaveGraph.WaveStream = null;
+            // 
             // Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1491, 560);
+            this.Controls.Add(this.BiteMethod4CheckBox);
+            this.Controls.Add(this.BiteMethod3CheckBox);
+            this.Controls.Add(this.ChewMethod3CheckBox);
+            this.Controls.Add(this.ChewMethod1CheckBox);
+            this.Controls.Add(this.ChewMethod2CheckBox);
             this.Controls.Add(this.VolumeLabel);
             this.Controls.Add(this.VolumeTrackBar);
             this.Controls.Add(this.NameField);
@@ -213,6 +283,11 @@
         private System.Windows.Forms.Label NameField;
         private System.Windows.Forms.TrackBar VolumeTrackBar;
         private System.Windows.Forms.Label VolumeLabel;
+        private System.Windows.Forms.CheckBox ChewMethod2CheckBox;
+        private System.Windows.Forms.CheckBox ChewMethod1CheckBox;
+        private System.Windows.Forms.CheckBox ChewMethod3CheckBox;
+        private System.Windows.Forms.CheckBox BiteMethod3CheckBox;
+        private System.Windows.Forms.CheckBox BiteMethod4CheckBox;
     }
 }
 
