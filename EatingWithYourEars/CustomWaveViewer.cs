@@ -454,10 +454,12 @@ namespace EatingWithYourEars
                 else
                 {
                     // state 1 (move to halfway on the graph):
-                    if (trackBarX * (constSampleCount - (rightOffset - leftOffset - 2)) <= (leftOffset + ((rightOffset - leftOffset) / 2)))
+                    float barXPos = ((float)trackBarX * ((float)waveStream.Length / ((float)constSamplesPerPixel * 4.0f))) - drawPosition;
+                    if (barXPos >= (rightOffset - leftOffset))
                     {
-                        e.Graphics.DrawLine(Pens.Blue, new PointF((float)leftOffset + (trackBarX * (constSampleCount - (rightOffset - leftOffset - 2))), (float)topOffset), new PointF((float)leftOffset + (trackBarX * (constSampleCount - (rightOffset - leftOffset - 2))), (float)topOffset + (((float)bottomOffset - (float)topOffset) / 2.0f)));
+                        scroll(0, (rightOffset - leftOffset));
                     }
+                    e.Graphics.DrawLine(Pens.Blue, new PointF((float)leftOffset + barXPos, (float)topOffset), new PointF((float)leftOffset + barXPos, (float)topOffset + (((float)bottomOffset - (float)topOffset) / 2.0f)));
                 }
             }
 
