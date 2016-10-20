@@ -485,11 +485,13 @@ namespace EatingWithYourEars
 
 
             // Plotting Chew Points (Commented out until i fix it up):
-
-            for (int i = dataToHide.Count - 1; i > -1; i--)
+            if (waveStream != null)
             {
+                for (int i = dataToHide.Count - 1; i > -1; i--)
+                {
                     chewingAnalysisLists.RemoveAt(dataToHide[i]);
                     brushList.RemoveAt(dataToHide[i]);
+                }
             }
 
             float multiplier = (float)constSamplesPerPixel / (float)samplesPerPixel;

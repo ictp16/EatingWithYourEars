@@ -324,8 +324,7 @@ namespace EatingWithYourEars
 
         private void hideData(int value, bool hide)
         {
-            if (WaveGraph.WaveStream != null)
-            {
+
                 if (hide)
                 {
                     WaveGraph.dataToHide.Add(value);
@@ -344,8 +343,6 @@ namespace EatingWithYourEars
                 WaveGraph.dataToHide.Sort();
                 WaveGraph.Invalidate();
             }
-        }
-
 
     }
 }
