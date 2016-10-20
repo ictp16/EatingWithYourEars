@@ -57,7 +57,7 @@
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1491, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1251, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -95,7 +95,7 @@
             // 
             // PlayPauseButton
             // 
-            this.PlayPauseButton.Location = new System.Drawing.Point(385, 506);
+            this.PlayPauseButton.Location = new System.Drawing.Point(387, 564);
             this.PlayPauseButton.Name = "PlayPauseButton";
             this.PlayPauseButton.Size = new System.Drawing.Size(83, 46);
             this.PlayPauseButton.TabIndex = 2;
@@ -106,7 +106,7 @@
             // NameLabel
             // 
             this.NameLabel.AutoSize = true;
-            this.NameLabel.Location = new System.Drawing.Point(18, 504);
+            this.NameLabel.Location = new System.Drawing.Point(18, 561);
             this.NameLabel.Name = "NameLabel";
             this.NameLabel.Size = new System.Drawing.Size(69, 13);
             this.NameLabel.TabIndex = 3;
@@ -122,7 +122,7 @@
             "1.00x",
             "1.50x",
             "2.00x"});
-            this.TrackSpeedList.Location = new System.Drawing.Point(494, 531);
+            this.TrackSpeedList.Location = new System.Drawing.Point(492, 586);
             this.TrackSpeedList.Name = "TrackSpeedList";
             this.TrackSpeedList.Size = new System.Drawing.Size(121, 21);
             this.TrackSpeedList.TabIndex = 4;
@@ -132,7 +132,7 @@
             // SpeedLabel
             // 
             this.SpeedLabel.AutoSize = true;
-            this.SpeedLabel.Location = new System.Drawing.Point(491, 504);
+            this.SpeedLabel.Location = new System.Drawing.Point(491, 561);
             this.SpeedLabel.Name = "SpeedLabel";
             this.SpeedLabel.Size = new System.Drawing.Size(122, 13);
             this.SpeedLabel.TabIndex = 5;
@@ -142,7 +142,7 @@
             // 
             this.NameField.AutoSize = true;
             this.NameField.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NameField.Location = new System.Drawing.Point(18, 529);
+            this.NameField.Location = new System.Drawing.Point(17, 590);
             this.NameField.Name = "NameField";
             this.NameField.Size = new System.Drawing.Size(39, 20);
             this.NameField.TabIndex = 6;
@@ -150,7 +150,7 @@
             // 
             // VolumeTrackBar
             // 
-            this.VolumeTrackBar.Location = new System.Drawing.Point(642, 529);
+            this.VolumeTrackBar.Location = new System.Drawing.Point(642, 576);
             this.VolumeTrackBar.Name = "VolumeTrackBar";
             this.VolumeTrackBar.Size = new System.Drawing.Size(221, 45);
             this.VolumeTrackBar.TabIndex = 7;
@@ -160,7 +160,7 @@
             // VolumeLabel
             // 
             this.VolumeLabel.AutoSize = true;
-            this.VolumeLabel.Location = new System.Drawing.Point(639, 504);
+            this.VolumeLabel.Location = new System.Drawing.Point(648, 560);
             this.VolumeLabel.Name = "VolumeLabel";
             this.VolumeLabel.Size = new System.Drawing.Size(45, 13);
             this.VolumeLabel.TabIndex = 8;
@@ -171,7 +171,7 @@
             this.ChewMethod2CheckBox.AutoSize = true;
             this.ChewMethod2CheckBox.Checked = true;
             this.ChewMethod2CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChewMethod2CheckBox.Location = new System.Drawing.Point(358, 472);
+            this.ChewMethod2CheckBox.Location = new System.Drawing.Point(359, 543);
             this.ChewMethod2CheckBox.Name = "ChewMethod2CheckBox";
             this.ChewMethod2CheckBox.Size = new System.Drawing.Size(15, 14);
             this.ChewMethod2CheckBox.TabIndex = 9;
@@ -183,7 +183,7 @@
             this.ChewMethod1CheckBox.AutoSize = true;
             this.ChewMethod1CheckBox.Checked = true;
             this.ChewMethod1CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChewMethod1CheckBox.Location = new System.Drawing.Point(358, 452);
+            this.ChewMethod1CheckBox.Location = new System.Drawing.Point(359, 521);
             this.ChewMethod1CheckBox.Name = "ChewMethod1CheckBox";
             this.ChewMethod1CheckBox.Size = new System.Drawing.Size(15, 14);
             this.ChewMethod1CheckBox.TabIndex = 10;
@@ -195,7 +195,7 @@
             this.ChewMethod3CheckBox.AutoSize = true;
             this.ChewMethod3CheckBox.Checked = true;
             this.ChewMethod3CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChewMethod3CheckBox.Location = new System.Drawing.Point(669, 452);
+            this.ChewMethod3CheckBox.Location = new System.Drawing.Point(667, 521);
             this.ChewMethod3CheckBox.Name = "ChewMethod3CheckBox";
             this.ChewMethod3CheckBox.Size = new System.Drawing.Size(15, 14);
             this.ChewMethod3CheckBox.TabIndex = 11;
@@ -207,7 +207,7 @@
             this.BiteMethod3CheckBox.AutoSize = true;
             this.BiteMethod3CheckBox.Checked = true;
             this.BiteMethod3CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.BiteMethod3CheckBox.Location = new System.Drawing.Point(669, 472);
+            this.BiteMethod3CheckBox.Location = new System.Drawing.Point(667, 543);
             this.BiteMethod3CheckBox.Name = "BiteMethod3CheckBox";
             this.BiteMethod3CheckBox.Size = new System.Drawing.Size(15, 14);
             this.BiteMethod3CheckBox.TabIndex = 12;
@@ -219,7 +219,7 @@
             this.BiteMethod4CheckBox.AutoSize = true;
             this.BiteMethod4CheckBox.Checked = true;
             this.BiteMethod4CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.BiteMethod4CheckBox.Location = new System.Drawing.Point(1161, 472);
+            this.BiteMethod4CheckBox.Location = new System.Drawing.Point(988, 543);
             this.BiteMethod4CheckBox.Name = "BiteMethod4CheckBox";
             this.BiteMethod4CheckBox.Size = new System.Drawing.Size(15, 14);
             this.BiteMethod4CheckBox.TabIndex = 13;
@@ -228,11 +228,10 @@
             // 
             // WaveGraph
             // 
-            this.WaveGraph.Dock = System.Windows.Forms.DockStyle.Top;
-            this.WaveGraph.Location = new System.Drawing.Point(0, 24);
+            this.WaveGraph.Location = new System.Drawing.Point(0, 27);
             this.WaveGraph.Name = "WaveGraph";
             this.WaveGraph.SamplesPerPixel = 128;
-            this.WaveGraph.Size = new System.Drawing.Size(1491, 464);
+            this.WaveGraph.Size = new System.Drawing.Size(1251, 530);
             this.WaveGraph.StartPosition = ((long)(0));
             this.WaveGraph.TabIndex = 1;
             this.WaveGraph.WaveStream = null;
@@ -241,7 +240,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1491, 560);
+            this.ClientSize = new System.Drawing.Size(1251, 619);
             this.Controls.Add(this.BiteMethod4CheckBox);
             this.Controls.Add(this.BiteMethod3CheckBox);
             this.Controls.Add(this.ChewMethod3CheckBox);

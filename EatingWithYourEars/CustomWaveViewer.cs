@@ -220,15 +220,15 @@ namespace EatingWithYourEars
 
         private void resetBrushList()
         {
-            chewingMethodBrush1 = new SolidBrush(Color.DarkOrange);
+            chewingMethodBrush1 = new SolidBrush(Color.Blue);
             brushList.Add(chewingMethodBrush1);
             chewingMethodBrush2 = new SolidBrush(Color.Red);
             brushList.Add(chewingMethodBrush2);            
-            chewingMethodBrush3 = new SolidBrush(Color.DarkSeaGreen);
+            chewingMethodBrush3 = new SolidBrush(Color.Orange);
             brushList.Add(chewingMethodBrush3);
-            biteMethodBrush1 = new SolidBrush(Color.Goldenrod);
+            biteMethodBrush1 = new SolidBrush(Color.Purple);
             brushList.Add(biteMethodBrush1);
-            biteMethodBrush2 = new SolidBrush(Color.Fuchsia);
+            biteMethodBrush2 = new SolidBrush(Color.Green);
             brushList.Add(biteMethodBrush2);
         }
 
@@ -257,7 +257,7 @@ namespace EatingWithYourEars
             //defining graph padding:
             leftOffset = 150;
             rightOffset = this.Width - 50;
-            topOffset = 30;
+            topOffset = 80;
             bottomOffset = this.Height - 100;
 
             //reset num of chews in case of repaint:
@@ -284,7 +284,27 @@ namespace EatingWithYourEars
             e.Graphics.DrawString("Amount of Chews (Alternate 2nd Method): " + numOfChews2.ToString(), f, chewingMethodBrush2, 0, this.Height - 20);
             e.Graphics.DrawString("Amount of Bites (third method): " + AvgBiteCount.ToString(), f, biteMethodBrush1, 380, this.Height - 20);
             e.Graphics.DrawString("Amount of Chews (third method): " + AvgChewCount.ToString(), f, chewingMethodBrush3, 380, this.Height - 40);
-            e.Graphics.DrawString("Amount of Bites (fourth method): " + numOfBites.ToString(), f, biteMethodBrush2, 850, this.Height - 20); 
+            e.Graphics.DrawString("Amount of Bites (fourth method): " + numOfBites.ToString(), f, biteMethodBrush2, 700, this.Height - 20);
+
+            // legend:
+            
+            e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255,232,232,238)), leftOffset, 0, 720, 71);
+            e.Graphics.DrawString("Legend:", f, b, leftOffset + radius + 1, 0);
+
+            e.Graphics.FillEllipse(chewingMethodBrush1, leftOffset + (radius * 2), 20 + (radius * 2), radius * 4, radius * 4);
+            e.Graphics.DrawString("- Chew Detected (Method 1)",f,chewingMethodBrush1,leftOffset + 25, 25);
+
+            e.Graphics.FillEllipse(chewingMethodBrush2, leftOffset + (radius * 2), 40 + (radius * 2), radius * 4, radius * 4);
+            e.Graphics.DrawString("- Chew Detected (Method 2)", f, chewingMethodBrush2, leftOffset + 25, 45);
+
+            e.Graphics.FillEllipse(chewingMethodBrush3, 250 + leftOffset + (radius * 2), 20 + (radius * 2), radius * 4, radius * 4);
+            e.Graphics.DrawString("- Chew Detected (Method 3)", f, chewingMethodBrush3, leftOffset + 275, 25);
+
+            e.Graphics.FillEllipse(biteMethodBrush1, 250 + leftOffset + (radius * 2), 40 + (radius * 2), radius * 4, radius * 4);
+            e.Graphics.DrawString("- Bite Detected (Method 3)", f, biteMethodBrush1, leftOffset + 275, 45);
+
+            e.Graphics.FillEllipse(biteMethodBrush2, 500 + leftOffset + (radius * 2), 20 + (radius * 2), radius * 4, radius * 4);
+            e.Graphics.DrawString("- Bite Detected (Method 4)", f, biteMethodBrush2, leftOffset + 525, 25);
 
             // work out if the lowest or the highest value is the largest amplitude value for the file:
             float largestAmpValue = 0;
@@ -350,7 +370,7 @@ namespace EatingWithYourEars
             
             //horizontal:
             e.Graphics.DrawLine(Pens.Black, new Point(leftOffset, bottomOffset), new Point(rightOffset, bottomOffset));
-            e.Graphics.DrawString("Time (Seconds)", f, b, new Point(leftOffset + ((rightOffset - leftOffset) / 2) - 100, bottomOffset + 50));
+            e.Graphics.DrawString("Time (Seconds)", f, b, new Point(leftOffset + ((rightOffset - leftOffset) / 2) - 100, bottomOffset + 40));
 
 
             // resizing the y scale depending if zommed in or not:
@@ -453,7 +473,6 @@ namespace EatingWithYourEars
 
                 else
                 {
-                    // state 1 (move to halfway on the graph):
                     float barXPos = ((float)trackBarX * ((float)waveStream.Length / ((float)constSamplesPerPixel * 4.0f))) - drawPosition;
                     if (barXPos >= (rightOffset - leftOffset))
                     {
